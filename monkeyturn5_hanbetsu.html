@@ -396,7 +396,7 @@ body{padding-bottom:110px;}
     <div class="chips" id="chips"></div>
   </div>
   <div class="dnote" id="data-note">
-    データ根拠：5枚役/セリフ比率は実測値。周期到達pt分布(444/222等)は推定値混じり(666ptのみ実測)。3周期以内当選率は設定4,5,6実測・設定1,2は延長推定。CZ/直撃時のだいたいのptは参考表示のみで自動判別には未反映。設定3は存在しないため5段階(1,2,4,5,6)で判別。
+    データ根拠：5枚役/セリフ比率は実測値。着地周期分布(1〜4周期以上)は設定4,5,6実測・設定1,2は延長推定。周期到達pt分布(444/222等)は推定値混じり(666ptのみ実測)。CZ/直撃時のだいたいのptは参考表示のみで自動判別には未反映。設定3は存在しないため5段階(1,2,4,5,6)で判別。
   </div>
   <button class="calcbtn" data-action="calc" style="margin-top:10px;">再計算</button>
 </div>
@@ -727,8 +727,14 @@ const SETTINGS = [1,2,4,5,6];
 
 const BELL5 = {1:1/38.15, 2:1/36.86, 4:1/30.27, 5:1/24.51, 6:1/22.53};
 const SERIFU_A = {1:0.50, 2:0.40, 4:0.40, 5:0.70, 6:0.40};
-const CYCLE1_WIN = {1:0.30, 2:0.36, 4:0.417, 5:0.476, 6:0.506};
-const CYCLE3_WIN = {1:0.65, 2:0.75, 4:0.833, 5:0.803, 6:0.900};
+// 着地周期分布(1回のAT獲得あたり、何周期目で着地したか。系列単位の統計)
+const LANDING_DIST = {
+  1:{c1:30.0, c2:25.0, c3:15.0, c4plus:30.0},
+  2:{c1:36.0, c2:27.0, c3:13.0, c4plus:24.0},
+  4:{c1:41.7, c2:33.3, c3:8.4,  c4plus:16.6},
+  5:{c1:47.6, c2:23.1, c3:9.9,  c4plus:19.4},
+  6:{c1:50.6, c2:26.9, c3:12.6, c4plus:9.9},
+};
 const PT_DIST = {
   1:{111:0,222:38.6,333:1.8,444:38.6,555:1.8,666:12.7},
   2:{111:0,222:44.1,333:1.7,444:34.1,555:2.6,666:11.0},
@@ -803,26 +809,35 @@ function calc(){
   // --- 周期到達ログ ---
   const yushutsuLogs = S.cycleLog.filter(e=>e.trigger==='yushutsu');
   if(yushutsuLogs.length>0){
-    const cycle1Logs = yushutsuLogs.filter(e=>e.cycle===1);
-    const within3Logs = yushutsuLogs.filter(e=>e.cycle<=3);
     const normalLogs = yushutsuLogs.filter(e=>e.type==='normal');
 
-    if(cycle1Logs.length>0){
-      const wins = cycle1Logs.filter(e=>e.result==='win').length;
-      const w = Math.min(cycle1Logs.length/8,1) * 0.7;
+    // 着地周期分布(系列単位): AT当選に至った全トリガー(優出win/直撃/CZ成功)から
+    // 「1回のAT獲得あたり何周期目で着地したか」を1データ点として集計する
+    const landingEntries = S.cycleLog.filter(e=>
+      (e.trigger==='yushutsu' && e.result==='win') ||
+      (e.trigger==='chokugeki') ||
+      (e.trigger==='chogeki' && e.result==='success')
+    );
+    if(landingEntries.length>0){
+      const bins = {c1:0,c2:0,c3:0,c4plus:0};
+      landingEntries.forEach(e=>{
+        if(e.cycle===1) bins.c1++;
+        else if(e.cycle===2) bins.c2++;
+        else if(e.cycle===3) bins.c3++;
+        else bins.c4plus++;
+      });
+      const w = Math.min(landingEntries.length/8,1) * 0.85;
       SETTINGS.forEach(s=>{
-        const p = CYCLE1_WIN[s];
-        sc[s] += w * (wins*Math.log(p) + (cycle1Logs.length-wins)*Math.log(Math.max(1-p,1e-10)));
+        const d = LANDING_DIST[s];
+        sc[s] += w * (
+          bins.c1*Math.log(Math.max(d.c1/100,1e-4)) +
+          bins.c2*Math.log(Math.max(d.c2/100,1e-4)) +
+          bins.c3*Math.log(Math.max(d.c3/100,1e-4)) +
+          bins.c4plus*Math.log(Math.max(d.c4plus/100,1e-4))
+        );
       });
     }
-    if(within3Logs.length>0){
-      const wins = within3Logs.filter(e=>e.result==='win').length;
-      const w = Math.min(within3Logs.length/10,1) * 0.8;
-      SETTINGS.forEach(s=>{
-        const p = CYCLE3_WIN[s];
-        sc[s] += w * (wins*Math.log(p) + (within3Logs.length-wins)*Math.log(Math.max(1-p,1e-10)));
-      });
-    }
+
     if(normalLogs.length>0){
       const w = Math.min(normalLogs.length/10,1) * 0.35;
       SETTINGS.forEach(s=>{
@@ -989,10 +1004,14 @@ function renderResult(probs, activeClips, medalTotal, normalTotal, atGames){
     ch += `<span class="chip">メダルなし率 ${nonePct}%(n=${medalTotal})</span>`;
   }
   const yushutsuLogs = S.cycleLog.filter(e=>e.trigger==='yushutsu');
-  const within3 = yushutsuLogs.filter(e=>e.cycle<=3);
-  if(within3.length>0){
-    const wins3 = within3.filter(e=>e.result==='win').length;
-    ch += `<span class="chip">3周期以内当選率 ${Math.round(wins3/within3.length*100)}%(n=${within3.length})</span>`;
+  const landingEntries = S.cycleLog.filter(e=>
+    (e.trigger==='yushutsu' && e.result==='win') ||
+    (e.trigger==='chokugeki') ||
+    (e.trigger==='chogeki' && e.result==='success')
+  );
+  if(landingEntries.length>0){
+    const within3 = landingEntries.filter(e=>e.cycle<=3).length;
+    ch += `<span class="chip">3周期以内着地率 ${Math.round(within3/landingEntries.length*100)}%(n=${landingEntries.length})</span>`;
   }
   ch += `<span class="chip">通常時G数(合計) ${normalTotal}G</span>`;
   ch += `<span class="chip">AT中G数(推定) ${atGames}G</span>`;
