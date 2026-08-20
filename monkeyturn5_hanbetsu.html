@@ -173,6 +173,14 @@ body{padding-bottom:110px;}
         <div class="sbtn" data-key="serifuB" data-d="1">＋</div>
       </div>
     </div>
+    <div class="irow">
+      <div class="ilabel">榎木（紫）/澄（紫）<small>設定4以上〜6濃厚</small></div>
+      <div class="stepper">
+        <div class="sbtn" data-key="enokiSumi" data-d="-1">－</div>
+        <div class="sval" id="sv-enokiSumi">0</div>
+        <div class="sbtn" data-key="enokiSumi" data-d="1">＋</div>
+      </div>
+    </div>
   </div>
 
   <div class="card">
@@ -329,27 +337,38 @@ body{padding-bottom:110px;}
     <div class="irow"><div class="ilabel">獲得枚数 666 OVER<small>設定6</small></div>
       <div class="stepper"><div class="sbtn" data-key="over666" data-d="-1">－</div><div class="sval" id="sv-over666">0</div><div class="sbtn" data-key="over666" data-d="1">＋</div></div>
     </div>
-    <div class="irow"><div class="ilabel">榎木（紫）/澄（紫）<small>設定4以上〜6濃厚</small></div>
-      <div class="stepper"><div class="sbtn" data-key="enokiSumi" data-d="-1">－</div><div class="sval" id="sv-enokiSumi">0</div><div class="sbtn" data-key="enokiSumi" data-d="1">＋</div></div>
-    </div>
-    <div class="irow"><div class="ilabel">青島＆波多野（青島SG）<small>設定5以上+当該セット継続濃厚</small></div>
-      <div class="stepper"><div class="sbtn" data-key="aoshimaHatano" data-d="-1">－</div><div class="sval" id="sv-aoshimaHatano">0</div><div class="sbtn" data-key="aoshimaHatano" data-d="1">＋</div></div>
-    </div>
     <div class="irow"><div class="ilabel">ボートケロット（AT中）<small>艇王シナリオ濃厚+設定5以上の一部</small></div>
       <div class="stepper"><div class="sbtn" data-key="boatKerot" data-d="-1">－</div><div class="sval" id="sv-boatKerot">0</div><div class="sbtn" data-key="boatKerot" data-d="1">＋</div></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="ctitle">青島SG ラウンド開始画面</div>
-    <div class="irow"><div class="ilabel">ラウンド開始画面 総回数<small>私服/レース服/ドレス全て含めた分母</small></div>
-      <div class="stepper"><div class="sbtn" data-key="aoshimaRoundTotal" data-d="-1">－</div><div class="sval" id="sv-aoshimaRoundTotal">0</div><div class="sbtn" data-key="aoshimaRoundTotal" data-d="1">＋</div></div>
+    <div class="ctitle">青島SG ラウンド開始画面（継続ストックなし時）</div>
+    <div class="irow"><div class="ilabel">ラウンド開始画面 総回数<small>私服/レース服/ドレス 全て含めた分母（ストックなし時のみ）</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaRoundTotalNo" data-d="-1">－</div><div class="sval" id="sv-aoshimaRoundTotalNo">0</div><div class="sbtn" data-key="aoshimaRoundTotalNo" data-d="1">＋</div></div>
     </div>
-    <div class="irow"><div class="ilabel">ドレス出現<small>高設定示唆(1→37.5%まで段階的に上昇)</small></div>
-      <div class="stepper"><div class="sbtn" data-key="aoshimaDress" data-d="-1">－</div><div class="sval" id="sv-aoshimaDress">0</div><div class="sbtn" data-key="aoshimaDress" data-d="1">＋</div></div>
+    <div class="irow"><div class="ilabel">ドレス出現<small>高設定示唆(設定1:20%→設定5,6:37.5%)</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaDressNo" data-d="-1">－</div><div class="sval" id="sv-aoshimaDressNo">0</div><div class="sbtn" data-key="aoshimaDressNo" data-d="1">＋</div></div>
     </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">青島SG ラウンド開始画面（継続ストックあり時）</div>
+    <div class="irow"><div class="ilabel">ラウンド開始画面 総回数<small>私服/レース服/ドレス/青島＆波多野 全て含めた分母（ストックあり時のみ）</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaRoundTotalYes" data-d="-1">－</div><div class="sval" id="sv-aoshimaRoundTotalYes">0</div><div class="sbtn" data-key="aoshimaRoundTotalYes" data-d="1">＋</div></div>
+    </div>
+    <div class="irow"><div class="ilabel">ドレス出現<small>高設定示唆(設定1:20%→設定5:40.8%,6:40.5%)</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaDressYes" data-d="-1">－</div><div class="sval" id="sv-aoshimaDressYes">0</div><div class="sbtn" data-key="aoshimaDressYes" data-d="1">＋</div></div>
+    </div>
+    <div class="irow"><div class="ilabel">青島＆波多野 出現<small>設定5以上+当該セット継続濃厚（ストックあり時のみ発生）</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaHatano" data-d="-1">－</div><div class="sval" id="sv-aoshimaHatano">0</div><div class="sbtn" data-key="aoshimaHatano" data-d="1">＋</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">上位AT中 その他</div>
     <div class="irow">
-      <div class="ilabel">上位AT中 青島SPフリーズ発生</div>
+      <div class="ilabel">青島SPフリーズ発生</div>
       <div class="stepper">
         <div class="sbtn" data-key="aoshimaFreeze" data-d="-1">－</div>
         <div class="sval" id="sv-aoshimaFreeze">0</div>
@@ -423,7 +442,8 @@ const S = {
   funeGin:0, funeKin:0, funeNiji:0,
   over456:0, over803:0, over666:0,
   enokiSumi:0, aoshimaHatano:0, boatKerot:0,
-  aoshimaDress:0, aoshimaRoundTotal:0,
+  aoshimaRoundTotalNo:0, aoshimaDressNo:0,
+  aoshimaRoundTotalYes:0, aoshimaDressYes:0,
   exWeakCherry:0, exWeakCherryTotal:0,
 };
 const history = [];
@@ -462,7 +482,8 @@ function renderAll(){
    'medalBlue','medalYellow','medalBlack','medalNone',
    'trophyBronze','trophyGold','trophyKerot','trophyRainbow','funeGin','funeKin','funeNiji',
    'over456','over803','over666','enokiSumi','aoshimaHatano','boatKerot',
-   'aoshimaDress','aoshimaRoundTotal','exWeakCherry','exWeakCherryTotal'].forEach(k=>{
+   'aoshimaRoundTotalNo','aoshimaDressNo','aoshimaRoundTotalYes','aoshimaDressYes',
+   'exWeakCherry','exWeakCherryTotal'].forEach(k=>{
     const el = document.getElementById('sv-'+k);
     if(el) el.textContent = S[k];
   });
@@ -722,7 +743,11 @@ const CHOKUGEKI_WEAK = {1:0.0001,2:0.0001,4:0.008,5:0.020,6:0.031};
 const CHOKUGEKI_STRONG = {1:0.004,2:0.012,4:0.020,5:0.039,6:0.063};
 const AOSHIMA_FREEZE = {1:0.001,2:0.001,4:0.001,5:0.05,6:0.125};
 // 青島SGラウンド開始画面 ドレス出現率(継続ストックなし時、実測)
-const AOSHIMA_DRESS = {1:0.200,2:0.250,4:0.350,5:0.375,6:0.375};
+const AOSHIMA_DRESS_NO = {1:0.200,2:0.250,4:0.350,5:0.375,6:0.375};
+// 青島SGラウンド開始画面 ドレス出現率(継続ストックあり時、実測)
+const AOSHIMA_DRESS_YES = {1:0.200,2:0.250,4:0.350,5:0.408,6:0.405};
+// 青島＆波多野 出現率(継続ストックあり時のみ発生)
+const AOSHIMA_HATANO_RATE = {1:0.0001,2:0.0001,4:0.0001,5:0.052,6:0.045};
 // 激走チャージ中EXアイテム獲得率(弱チェリー/ボート契機)
 const EX_WEAK_CHERRY = {1:0.250,2:0.262,4:0.328,5:0.391,6:0.430};
 
@@ -843,12 +868,25 @@ function calc(){
     });
   }
 
-  // --- 青島SGラウンド開始画面 ドレス出現率 ---
-  if(S.aoshimaRoundTotal>0 && S.aoshimaDress<=S.aoshimaRoundTotal){
-    const w = Math.min(S.aoshimaRoundTotal/15,1) * 0.4;
+  // --- 青島SGラウンド開始画面 ドレス出現率(ストックなし/あり別) ---
+  if(S.aoshimaRoundTotalNo>0 && S.aoshimaDressNo<=S.aoshimaRoundTotalNo){
+    const w = Math.min(S.aoshimaRoundTotalNo/15,1) * 0.4;
     SETTINGS.forEach(s=>{
-      const p = AOSHIMA_DRESS[s];
-      sc[s] += w * (S.aoshimaDress*Math.log(p) + (S.aoshimaRoundTotal-S.aoshimaDress)*Math.log(Math.max(1-p,1e-10)));
+      const p = AOSHIMA_DRESS_NO[s];
+      sc[s] += w * (S.aoshimaDressNo*Math.log(p) + (S.aoshimaRoundTotalNo-S.aoshimaDressNo)*Math.log(Math.max(1-p,1e-10)));
+    });
+  }
+  if(S.aoshimaRoundTotalYes>0 && (S.aoshimaDressYes+S.aoshimaHatano)<=S.aoshimaRoundTotalYes){
+    const w = Math.min(S.aoshimaRoundTotalYes/15,1) * 0.4;
+    SETTINGS.forEach(s=>{
+      const p = AOSHIMA_DRESS_YES[s];
+      sc[s] += w * (S.aoshimaDressYes*Math.log(p) + (S.aoshimaRoundTotalYes-S.aoshimaDressYes)*Math.log(Math.max(1-p,1e-10)));
+    });
+    // 青島＆波多野出現率(ストックあり時のみの分母で計算)
+    const wH = Math.min(S.aoshimaRoundTotalYes/15,1) * 0.5;
+    SETTINGS.forEach(s=>{
+      const p = AOSHIMA_HATANO_RATE[s];
+      sc[s] += wH * (S.aoshimaHatano*Math.log(p) + (S.aoshimaRoundTotalYes-S.aoshimaHatano)*Math.log(Math.max(1-p,1e-10)));
     });
   }
 
@@ -960,7 +998,8 @@ function renderResult(probs, activeClips, medalTotal, normalTotal, atGames){
   ch += `<span class="chip">AT中G数(推定) ${atGames}G</span>`;
   const highPtSkip = S.cycleLog.filter(e=>(e.trigger==='chokugeki'||e.trigger==='chogeki') && e.approxPt>=400).length;
   if(highPtSkip>0) ch += `<span class="chip">高pt帯CZ/直撃 ${highPtSkip}回(参考)</span>`;
-  if(S.aoshimaRoundTotal>0) ch += `<span class="chip">ドレス出現率 ${Math.round(S.aoshimaDress/S.aoshimaRoundTotal*100)}%(n=${S.aoshimaRoundTotal})</span>`;
+  if(S.aoshimaRoundTotalNo>0) ch += `<span class="chip">ドレス出現率(ストックなし) ${Math.round(S.aoshimaDressNo/S.aoshimaRoundTotalNo*100)}%(n=${S.aoshimaRoundTotalNo})</span>`;
+  if(S.aoshimaRoundTotalYes>0) ch += `<span class="chip">ドレス出現率(ストックあり) ${Math.round(S.aoshimaDressYes/S.aoshimaRoundTotalYes*100)}%(n=${S.aoshimaRoundTotalYes})</span>`;
   if(S.exWeakCherryTotal>0) ch += `<span class="chip">EXアイテム(弱チェリー/ボート) ${Math.round(S.exWeakCherry/S.exWeakCherryTotal*100)}%(n=${S.exWeakCherryTotal})</span>`;
   document.getElementById('chips').innerHTML = ch || '<span class="chip">データなし</span>';
 
