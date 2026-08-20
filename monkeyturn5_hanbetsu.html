@@ -213,7 +213,9 @@ body{padding-bottom:110px;}
       <div class="choice" data-trigger="yushutsu">周期到達</div>
       <div class="choice" data-trigger="chokugeki">直撃</div>
       <div class="choice" data-trigger="chogeki">CZ出現</div>
+      <div class="choice" data-trigger="tenjou">天井到達</div>
     </div>
+    <div class="small-note">天井到達＝通常時795G(短縮時495G)消化 or 周期6周期目(短縮時4周期目)到達。必ずAT当選</div>
 
     <div class="sectitle"><span class="stepnum">3</span>周期数<small style="font-weight:400;color:#666;">途中入店の場合もその時点の周期を選択</small></div>
     <div class="btnrow" id="wiz-cycle">
@@ -248,6 +250,14 @@ body{padding-bottom:110px;}
     <div id="wiz-result-block" style="display:none;">
       <div class="sectitle"><span class="stepnum">5</span>結果</div>
       <div class="btnrow" id="wiz-result"></div>
+    </div>
+
+    <div id="wiz-tencho-block" style="display:none;">
+      <div class="sectitle">発展Gまでのゲーム数<small style="font-weight:400;color:#666;">VSレース発展まで。12G=デフォルト/16G=チャンス/それ以外=大チャンス。VSレース分(約5G)と合わせて自動でゲーム数に加算されます</small></div>
+      <div class="irow" style="padding:8px 14px;">
+        <div class="ilabel">発展Gまで</div>
+        <input class="ifield" type="number" id="wiz-tenchoG" inputmode="numeric" placeholder="12" min="0" style="width:130px;" value="12">
+      </div>
     </div>
 
     <button class="subbtn" id="wiz-add" style="border-color:var(--accent);color:var(--accent2);">この内容を記録に追加</button>
@@ -472,7 +482,7 @@ function loadState(){
 
 function computeNormalStats(){
   const winEntries = S.cycleLog.filter(e=>e.addToTotal);
-  const normalTotal = winEntries.reduce((sum,e)=>sum+(e.game||0),0);
+  const normalTotal = winEntries.reduce((sum,e)=>sum+(e.effectiveGame!=null ? e.effectiveGame : (e.game||0)),0);
   const winCount = winEntries.length;
   return {normalTotal, winCount};
 }
@@ -573,6 +583,10 @@ document.body.addEventListener('click', function(e){
 });
 document.getElementById('f-total').addEventListener('input', function(){
   S.total = parseInt(this.value)||0;
+  const {normalTotal, winCount} = computeNormalStats();
+  document.getElementById('disp-normalTotal').textContent = normalTotal + 'G';
+  document.getElementById('disp-atRate').textContent = winCount>0 ? ('1/'+(normalTotal/winCount).toFixed(1)) : '-';
+  document.getElementById('disp-bellRate').textContent = (S.bell5>0 && S.total>0) ? ('1/'+(S.total/S.bell5).toFixed(2)) : '-';
   saveState();
 });
 
@@ -585,21 +599,30 @@ const RESULT_OPTIONS = {
   chogeki: [{v:'success',label:'〇 成功'},{v:'fail',label:'× 失敗'}],
 };
 
-const wizState = {game:null, trigger:null, cycle:null, pt:null, approxPt:null, result:null};
+const wizState = {game:null, trigger:null, cycle:null, pt:null, approxPt:null, result:null, tenchoG:null};
 
 function updateWizardVisibility(){
   const t = wizState.trigger;
   document.getElementById('wiz-pt-block').style.display = (t==='yushutsu') ? 'block' : 'none';
   document.getElementById('wiz-approx-block').style.display = (t==='chokugeki'||t==='chogeki') ? 'block' : 'none';
   const resultBlock = document.getElementById('wiz-result-block');
-  if(t){
+  if(t==='tenjou'){
+    resultBlock.style.display='none';
+    wizState.result = 'win'; // 天井到達は必ずAT当選
+  } else if(t){
     resultBlock.style.display='block';
     const container = document.getElementById('wiz-result');
     container.innerHTML = RESULT_OPTIONS[t].map(o=>`<div class="choice" data-result="${o.v}">${o.label}</div>`).join('');
   } else {
     resultBlock.style.display='none';
   }
+  updateTenchoVisibility();
   updatePtOptions();
+}
+
+function updateTenchoVisibility(){
+  const show = (wizState.trigger==='yushutsu' && wizState.result==='win') || wizState.trigger==='tenjou';
+  document.getElementById('wiz-tencho-block').style.display = show ? 'block' : 'none';
 }
 
 // 直前の記録から「次に選べる最小周期」を算出
@@ -609,7 +632,7 @@ function updateWizardVisibility(){
 function computeMinCycle(){
   for(const e of S.cycleLog){
     if(e.trigger==='chogeki' && e.result==='fail') continue; // CZ失敗はスキップ(周期は維持)
-    const isWin = (e.trigger==='yushutsu' && e.result==='win') || e.trigger==='chokugeki' || (e.trigger==='chogeki' && e.result==='success');
+    const isWin = (e.trigger==='yushutsu' && e.result==='win') || e.trigger==='chokugeki' || (e.trigger==='chogeki' && e.result==='success') || e.trigger==='tenjou';
     if(isWin) return 1;
     if(e.trigger==='yushutsu' && e.result==='through') return Math.min(e.cycle+1,6);
     return 1;
@@ -689,6 +712,10 @@ document.getElementById('wiz-result').addEventListener('click', function(e){
   this.querySelectorAll('.choice').forEach(g=>g.classList.remove('sel'));
   c.classList.add('sel');
   wizState.result = c.dataset.result;
+  updateTenchoVisibility();
+});
+document.getElementById('wiz-tenchoG').addEventListener('input', function(){
+  wizState.tenchoG = this.value ? parseInt(this.value) : null;
 });
 
 function getPrevYushutsuPt(){
@@ -699,16 +726,22 @@ function getPrevYushutsuPt(){
 document.getElementById('wiz-add').addEventListener('click', function(){
   if(wizState.game===null || wizState.game===undefined){ alert('ゲーム数を入力してください'); return; }
   if(!wizState.trigger){ alert('契機を選択してください'); return; }
-  if(!wizState.cycle){ alert('周期数を選択してください'); return; }
-  if(!wizState.result){ alert('結果を選択してください'); return; }
+  if(wizState.trigger!=='tenjou' && !wizState.cycle){ alert('周期数を選択してください'); return; }
+  if(wizState.trigger!=='tenjou' && !wizState.result){ alert('結果を選択してください'); return; }
   if(wizState.trigger==='yushutsu' && !wizState.pt){ alert('到達ptを選択してください'); return; }
+
+  const isYushutsuWin = (wizState.trigger==='yushutsu' && wizState.result==='win') || wizState.trigger==='tenjou';
+  const tenchoG = isYushutsuWin ? (wizState.tenchoG!==null ? wizState.tenchoG : 12) : 0;
+  const effectiveGame = isYushutsuWin ? (wizState.game + tenchoG + 5) : wizState.game; // 前兆G+VSレース分(約5G)を自動加算
 
   const entry = {
     trigger: wizState.trigger,
     game: wizState.game,
-    cycle: wizState.cycle,
+    effectiveGame: effectiveGame,
+    tenchoG: isYushutsuWin ? tenchoG : null,
+    cycle: wizState.cycle || 6, // 天井到達は周期未選択なら6周期扱い
     pt: wizState.trigger==='yushutsu' ? wizState.pt : null,
-    approxPt: wizState.trigger!=='yushutsu' ? wizState.approxPt : null,
+    approxPt: (wizState.trigger==='chokugeki'||wizState.trigger==='chogeki') ? wizState.approxPt : null,
     result: wizState.result,
     ts: Date.now(),
   };
@@ -720,15 +753,16 @@ document.getElementById('wiz-add').addEventListener('click', function(){
       entry.type = (prevPt && prevPt>=555) ? 'shortened' : 'normal';
     }
   }
-  // 合計ゲーム数に加算するかどうか(AT当選・弱/強直撃・CZ成功のみ加算)
+  // 合計ゲーム数に加算するかどうか(AT当選・弱/強直撃・CZ成功・天井到達のみ加算)
   entry.addToTotal = (entry.result==='win' || entry.result==='weak' || entry.result==='strong' || entry.result==='success');
 
   pushHistory();
   S.cycleLog.unshift(entry);
 
-  wizState.game=null; wizState.trigger=null; wizState.cycle=null; wizState.pt=null; wizState.approxPt=null; wizState.result=null;
+  wizState.game=null; wizState.trigger=null; wizState.cycle=null; wizState.pt=null; wizState.approxPt=null; wizState.result=null; wizState.tenchoG=null;
   document.getElementById('wiz-game').value='';
   document.getElementById('wiz-approxpt').value='';
+  document.getElementById('wiz-tenchoG').value='12';
   document.querySelectorAll('#wiz-trigger .choice,#wiz-cycle .choice,#wiz-pt .choice').forEach(c=>c.classList.remove('sel'));
   document.getElementById('wiz-result').innerHTML='';
   updateWizardVisibility();
@@ -736,7 +770,7 @@ document.getElementById('wiz-add').addEventListener('click', function(){
   saveState();
 });
 
-const TRIGGER_LABEL = {yushutsu:'周期到達', chokugeki:'直撃', chogeki:'CZ出現'};
+const TRIGGER_LABEL = {yushutsu:'周期到達', chokugeki:'直撃', chogeki:'CZ出現', tenjou:'天井到達'};
 function renderLogList(){
   const list = document.getElementById('loglist');
   const empty = document.getElementById('loglist-empty');
@@ -755,12 +789,16 @@ function renderLogList(){
     } else if(e.trigger==='chokugeki'){
       badge = e.result==='strong' ? '<span class="badge-mini badge-win">強レア直撃</span>' : '<span class="badge-mini badge-win">弱レア直撃</span>';
       detail = `${e.cycle}周期目${e.approxPt?' / 目安'+e.approxPt+'pt':''}`;
+    } else if(e.trigger==='tenjou'){
+      badge = '<span class="badge-mini badge-win">〇天井恩恵</span>';
+      detail = `${e.cycle}周期目/G数天井`;
     } else {
       badge = e.result==='success' ? '<span class="badge-mini badge-win">〇成功</span>' : '<span class="badge-mini badge-fail">×失敗</span>';
       detail = `${e.cycle}周期目${e.approxPt?' / 目安'+e.approxPt+'pt':''}（CZ出現）`;
     }
+    const gameDisp = e.effectiveGame!=null ? `${e.game}G(前兆+${e.tenchoG}G+VS5G→計${e.effectiveGame}G)` : `${e.game}G`;
     return `<div class="logitem">
-      <div class="lmain">[${TRIGGER_LABEL[e.trigger]}] ${detail} ${badge}<br><span style="color:#666;">G数:${e.game}${e.addToTotal?'（合計に加算）':'（合計に含めず）'}</span></div>
+      <div class="lmain">[${TRIGGER_LABEL[e.trigger]}] ${detail} ${badge}<br><span style="color:#666;">G数:${gameDisp}${e.addToTotal?'（合計に加算）':'（合計に含めず）'}</span></div>
       <div class="ldel" data-delidx="${idx}">削除</div>
     </div>`;
   }).join('');
@@ -870,7 +908,8 @@ function calc(){
     const landingEntries = S.cycleLog.filter(e=>
       (e.trigger==='yushutsu' && e.result==='win') ||
       (e.trigger==='chokugeki') ||
-      (e.trigger==='chogeki' && e.result==='success')
+      (e.trigger==='chogeki' && e.result==='success') ||
+      (e.trigger==='tenjou')
     );
     if(landingEntries.length>0){
       const bins = {c1:0,c2:0,c3:0,c4plus:0};
@@ -1061,7 +1100,8 @@ function renderResult(probs, activeClips, medalTotal, normalTotal, atGames){
   const landingEntries = S.cycleLog.filter(e=>
     (e.trigger==='yushutsu' && e.result==='win') ||
     (e.trigger==='chokugeki') ||
-    (e.trigger==='chogeki' && e.result==='success')
+    (e.trigger==='chogeki' && e.result==='success') ||
+    (e.trigger==='tenjou')
   );
   if(landingEntries.length>0){
     const within3 = landingEntries.filter(e=>e.cycle<=3).length;
