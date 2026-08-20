@@ -497,6 +497,7 @@ function renderAll(){
   document.getElementById('disp-bellRate').textContent = (S.bell5>0 && S.total>0) ? ('1/'+(S.total/S.bell5).toFixed(2)) : '-';
 
   renderLogList();
+  updateCycleOptions();
 }
 
 function showTab(pageId, el){
@@ -598,6 +599,58 @@ function updateWizardVisibility(){
   } else {
     resultBlock.style.display='none';
   }
+  updatePtOptions();
+}
+
+// 直前の記録から「次に選べる最小周期」を算出
+// ・優出モードでスルー(通過)した直後は、その周期以下は選べない(次は+1周期以降のみ)
+// ・CZ失敗は周期の進行に影響しないため、次もその周期のまま選べる
+// ・何らかのAT当選の直後は、新しいチェーンとして1周期目から選び直せる
+function computeMinCycle(){
+  for(const e of S.cycleLog){
+    if(e.trigger==='chogeki' && e.result==='fail') continue; // CZ失敗はスキップ(周期は維持)
+    const isWin = (e.trigger==='yushutsu' && e.result==='win') || e.trigger==='chokugeki' || (e.trigger==='chogeki' && e.result==='success');
+    if(isWin) return 1;
+    if(e.trigger==='yushutsu' && e.result==='through') return Math.min(e.cycle+1,6);
+    return 1;
+  }
+  return 1;
+}
+
+function updateCycleOptions(){
+  const minCycle = computeMinCycle();
+  document.querySelectorAll('#wiz-cycle .choice').forEach(c=>{
+    const cy = parseInt(c.dataset.cycle);
+    const disabled = cy < minCycle;
+    c.style.display = disabled ? 'none' : 'flex';
+    if(disabled && c.classList.contains('sel')){
+      c.classList.remove('sel');
+      wizState.cycle = null;
+    }
+  });
+}
+
+// ptボタンの絞り込み: 1周期目 or 短縮到達コンテキストでは111/222のみ選択可能
+function updatePtOptions(){
+  if(wizState.trigger!=='yushutsu'){ return; }
+  let allowed;
+  if(wizState.cycle===1){
+    allowed = [111,222];
+  } else if(wizState.cycle>1){
+    const prevPt = getPrevYushutsuPt();
+    allowed = (prevPt && prevPt>=555) ? [111,222] : [111,222,333,444,555,666];
+  } else {
+    allowed = [111,222,333,444,555,666]; // 周期未選択時は全表示
+  }
+  document.querySelectorAll('#wiz-pt .choice').forEach(c=>{
+    const pt = parseInt(c.dataset.pt);
+    const ok = allowed.includes(pt);
+    c.style.display = ok ? 'flex' : 'none';
+    if(!ok && c.classList.contains('sel')){
+      c.classList.remove('sel');
+      wizState.pt = null;
+    }
+  });
 }
 
 document.getElementById('wiz-game').addEventListener('input', function(){
@@ -621,6 +674,7 @@ document.getElementById('wiz-cycle').addEventListener('click', function(e){
   this.querySelectorAll('.choice').forEach(g=>g.classList.remove('sel'));
   c.classList.add('sel');
   wizState.cycle = parseInt(c.dataset.cycle);
+  updatePtOptions();
 });
 document.getElementById('wiz-pt').addEventListener('click', function(e){
   const c = e.target.closest('.choice');
