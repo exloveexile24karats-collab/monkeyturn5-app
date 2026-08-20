@@ -621,7 +621,7 @@ function updateWizardVisibility(){
 }
 
 function updateTenchoVisibility(){
-  const show = (wizState.trigger==='yushutsu' && wizState.result==='win') || wizState.trigger==='tenjou';
+  const show = (wizState.trigger==='yushutsu' && wizState.result==='win'); // 天井到達はそのゲーム数がAT当選ゲーム数そのものなので対象外
   document.getElementById('wiz-tencho-block').style.display = show ? 'block' : 'none';
 }
 
@@ -730,7 +730,7 @@ document.getElementById('wiz-add').addEventListener('click', function(){
   if(wizState.trigger!=='tenjou' && !wizState.result){ alert('結果を選択してください'); return; }
   if(wizState.trigger==='yushutsu' && !wizState.pt){ alert('到達ptを選択してください'); return; }
 
-  const isYushutsuWin = (wizState.trigger==='yushutsu' && wizState.result==='win') || wizState.trigger==='tenjou';
+  const isYushutsuWin = (wizState.trigger==='yushutsu' && wizState.result==='win'); // 天井到達は前兆加算の対象外(入力ゲーム数=AT当選ゲーム数そのもの)
   const tenchoG = isYushutsuWin ? (wizState.tenchoG!==null ? wizState.tenchoG : 12) : 0;
   const effectiveGame = isYushutsuWin ? (wizState.game + tenchoG + 5) : wizState.game; // 前兆G+VSレース分(約5G)を自動加算
 
