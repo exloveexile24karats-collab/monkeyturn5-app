@@ -329,8 +329,31 @@ body{padding-bottom:110px;}
     <div class="irow"><div class="ilabel">榎木（紫）/澄（紫）<small>設定4以上〜6濃厚</small></div>
       <div class="stepper"><div class="sbtn" data-key="enokiSumi" data-d="-1">－</div><div class="sval" id="sv-enokiSumi">0</div><div class="sbtn" data-key="enokiSumi" data-d="1">＋</div></div>
     </div>
-    <div class="irow"><div class="ilabel">青島＆波多野（青島SG）<small>設定5以上+継続濃厚</small></div>
+    <div class="irow"><div class="ilabel">青島＆波多野（青島SG）<small>設定5以上+当該セット継続濃厚</small></div>
       <div class="stepper"><div class="sbtn" data-key="aoshimaHatano" data-d="-1">－</div><div class="sval" id="sv-aoshimaHatano">0</div><div class="sbtn" data-key="aoshimaHatano" data-d="1">＋</div></div>
+    </div>
+    <div class="irow"><div class="ilabel">ボートケロット（AT中）<small>艇王シナリオ濃厚+設定5以上の一部</small></div>
+      <div class="stepper"><div class="sbtn" data-key="boatKerot" data-d="-1">－</div><div class="sval" id="sv-boatKerot">0</div><div class="sbtn" data-key="boatKerot" data-d="1">＋</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">青島SG ラウンド開始画面</div>
+    <div class="irow"><div class="ilabel">ドレス出現<small>高設定示唆(1→37.5%まで段階的に上昇)</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaDress" data-d="-1">－</div><div class="sval" id="sv-aoshimaDress">0</div><div class="sbtn" data-key="aoshimaDress" data-d="1">＋</div></div>
+    </div>
+    <div class="irow"><div class="ilabel">ラウンド開始画面 総回数<small>私服/レース服/ドレス全て含めた分母</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaRoundTotal" data-d="-1">－</div><div class="sval" id="sv-aoshimaRoundTotal">0</div><div class="sbtn" data-key="aoshimaRoundTotal" data-d="1">＋</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">激走チャージ中 EXアイテム獲得</div>
+    <div class="irow"><div class="ilabel">弱チェリー/ボート契機 獲得<small>設定差大(25.0%→43.0%)</small></div>
+      <div class="stepper"><div class="sbtn" data-key="exWeakCherry" data-d="-1">－</div><div class="sval" id="sv-exWeakCherry">0</div><div class="sbtn" data-key="exWeakCherry" data-d="1">＋</div></div>
+    </div>
+    <div class="irow"><div class="ilabel">弱チェリー/ボート契機 試行数</div>
+      <div class="stepper"><div class="sbtn" data-key="exWeakCherryTotal" data-d="-1">－</div><div class="sval" id="sv-exWeakCherryTotal">0</div><div class="sbtn" data-key="exWeakCherryTotal" data-d="1">＋</div></div>
     </div>
   </div>
   <button class="calcbtn" data-action="calc">計算して結果を見る →</button>
@@ -398,7 +421,9 @@ const S = {
   trophyBronze:0, trophyGold:0, trophyKerot:0, trophyRainbow:0,
   funeGin:0, funeKin:0, funeNiji:0,
   over456:0, over803:0, over666:0,
-  enokiSumi:0, aoshimaHatano:0,
+  enokiSumi:0, aoshimaHatano:0, boatKerot:0,
+  aoshimaDress:0, aoshimaRoundTotal:0,
+  exWeakCherry:0, exWeakCherryTotal:0,
 };
 const history = [];
 const SAVE_KEY = 'monkeyturn5_hanbetsu_v3';
@@ -435,7 +460,8 @@ function renderAll(){
   ['bell5','serifuA','serifuB','aoshimaFreeze',
    'medalBlue','medalYellow','medalBlack','medalNone',
    'trophyBronze','trophyGold','trophyKerot','trophyRainbow','funeGin','funeKin','funeNiji',
-   'over456','over803','over666','enokiSumi','aoshimaHatano'].forEach(k=>{
+   'over456','over803','over666','enokiSumi','aoshimaHatano','boatKerot',
+   'aoshimaDress','aoshimaRoundTotal','exWeakCherry','exWeakCherryTotal'].forEach(k=>{
     const el = document.getElementById('sv-'+k);
     if(el) el.textContent = S[k];
   });
@@ -694,6 +720,10 @@ const MEDAL_NONE = {1:0.45,2:0.42,4:0.38,5:0.35,6:0.33};
 const CHOKUGEKI_WEAK = {1:0.0001,2:0.0001,4:0.008,5:0.020,6:0.031};
 const CHOKUGEKI_STRONG = {1:0.004,2:0.012,4:0.020,5:0.039,6:0.063};
 const AOSHIMA_FREEZE = {1:0.001,2:0.001,4:0.001,5:0.05,6:0.125};
+// 青島SGラウンド開始画面 ドレス出現率(継続ストックなし時、実測)
+const AOSHIMA_DRESS = {1:0.200,2:0.250,4:0.350,5:0.375,6:0.375};
+// 激走チャージ中EXアイテム獲得率(弱チェリー/ボート契機)
+const EX_WEAK_CHERRY = {1:0.250,2:0.262,4:0.328,5:0.391,6:0.430};
 
 const HARD_CLIP = [
   ['trophyBronze',2], ['trophyGold',4], ['trophyKerot',5], ['trophyRainbow',6],
@@ -708,6 +738,7 @@ const HARD_CLIP_LABEL = {
   over456:'獲得枚数456 OVER(設定4以上)', over803:'獲得枚数803 OVER(設定5以上)', over666:'獲得枚数666 OVER(設定6)',
   enokiSumi:'榎木(紫)/澄(紫)(設定4以上〜6濃厚)', aoshimaHatano:'青島&波多野(設定5以上濃厚)',
 };
+// ボートケロットは確定ではなく強い示唆(艇王シナリオ濃厚+設定5以上の一部)のためサブ軸重みで扱う
 
 const COLORS = {1:'#6b6b70',2:'#4a9ede',4:'#5aaa30',5:'#ba7517',6:'#e04040'};
 
@@ -811,6 +842,31 @@ function calc(){
     });
   }
 
+  // --- 青島SGラウンド開始画面 ドレス出現率 ---
+  if(S.aoshimaRoundTotal>0 && S.aoshimaDress<=S.aoshimaRoundTotal){
+    const w = Math.min(S.aoshimaRoundTotal/15,1) * 0.4;
+    SETTINGS.forEach(s=>{
+      const p = AOSHIMA_DRESS[s];
+      sc[s] += w * (S.aoshimaDress*Math.log(p) + (S.aoshimaRoundTotal-S.aoshimaDress)*Math.log(Math.max(1-p,1e-10)));
+    });
+  }
+
+  // --- 激走チャージ中EXアイテム獲得率(弱チェリー/ボート契機) ---
+  if(S.exWeakCherryTotal>0 && S.exWeakCherry<=S.exWeakCherryTotal){
+    const w = Math.min(S.exWeakCherryTotal/15,1) * 0.35;
+    SETTINGS.forEach(s=>{
+      const p = EX_WEAK_CHERRY[s];
+      sc[s] += w * (S.exWeakCherry*Math.log(p) + (S.exWeakCherryTotal-S.exWeakCherry)*Math.log(Math.max(1-p,1e-10)));
+    });
+  }
+
+  // --- ボートケロット(艇王シナリオ濃厚+設定5以上の一部、確定ではないため軽い加点) ---
+  if(S.boatKerot>0){
+    SETTINGS.forEach(s=>{
+      if(s>=5) sc[s] += 0.3 * S.boatKerot;
+    });
+  }
+
   // --- 確定示唆(ハードクリップ) ---
   const activeClips = [];
   HARD_CLIP.forEach(([key,minS])=>{
@@ -903,6 +959,8 @@ function renderResult(probs, activeClips, medalTotal, normalTotal, atGames){
   ch += `<span class="chip">AT中G数(推定) ${atGames}G</span>`;
   const highPtSkip = S.cycleLog.filter(e=>(e.trigger==='chokugeki'||e.trigger==='chogeki') && e.approxPt>=400).length;
   if(highPtSkip>0) ch += `<span class="chip">高pt帯CZ/直撃 ${highPtSkip}回(参考)</span>`;
+  if(S.aoshimaRoundTotal>0) ch += `<span class="chip">ドレス出現率 ${Math.round(S.aoshimaDress/S.aoshimaRoundTotal*100)}%(n=${S.aoshimaRoundTotal})</span>`;
+  if(S.exWeakCherryTotal>0) ch += `<span class="chip">EXアイテム(弱チェリー/ボート) ${Math.round(S.exWeakCherry/S.exWeakCherryTotal*100)}%(n=${S.exWeakCherryTotal})</span>`;
   document.getElementById('chips').innerHTML = ch || '<span class="chip">データなし</span>';
 
   document.getElementById('result-main').classList.add('show');
