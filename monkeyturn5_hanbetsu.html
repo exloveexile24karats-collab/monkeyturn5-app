@@ -173,18 +173,21 @@ body{padding-bottom:110px;}
         <div class="sbtn" data-key="serifuB" data-d="1">＋</div>
       </div>
     </div>
-    <div class="irow">
-      <div class="ilabel">上位AT中 青島SPフリーズ発生</div>
-      <div class="stepper">
-        <div class="sbtn" data-key="aoshimaFreeze" data-d="-1">－</div>
-        <div class="sval" id="sv-aoshimaFreeze">0</div>
-        <div class="sbtn" data-key="aoshimaFreeze" data-d="1">＋</div>
-      </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">激走チャージ中 EXアイテム獲得</div>
+    <div class="irow"><div class="ilabel">弱チェリー/ボート契機 試行数</div>
+      <div class="stepper"><div class="sbtn" data-key="exWeakCherryTotal" data-d="-1">－</div><div class="sval" id="sv-exWeakCherryTotal">0</div><div class="sbtn" data-key="exWeakCherryTotal" data-d="1">＋</div></div>
+    </div>
+    <div class="irow"><div class="ilabel">弱チェリー/ボート契機 獲得<small>設定差大(25.0%→43.0%)</small></div>
+      <div class="stepper"><div class="sbtn" data-key="exWeakCherry" data-d="-1">－</div><div class="sval" id="sv-exWeakCherry">0</div><div class="sbtn" data-key="exWeakCherry" data-d="1">＋</div></div>
     </div>
   </div>
   <div class="dnote">周期到達・直撃・CZ出現は「実戦メモ」タブで記録してください。通常時ゲーム数の合計もそこから自動計算されます。</div>
   <button class="calcbtn" data-action="calc">計算して結果を見る →</button>
 </div>
+
 
 <!-- 実戦メモ -->
 <div id="p-log" class="page">
@@ -339,21 +342,19 @@ body{padding-bottom:110px;}
 
   <div class="card">
     <div class="ctitle">青島SG ラウンド開始画面</div>
-    <div class="irow"><div class="ilabel">ドレス出現<small>高設定示唆(1→37.5%まで段階的に上昇)</small></div>
-      <div class="stepper"><div class="sbtn" data-key="aoshimaDress" data-d="-1">－</div><div class="sval" id="sv-aoshimaDress">0</div><div class="sbtn" data-key="aoshimaDress" data-d="1">＋</div></div>
-    </div>
     <div class="irow"><div class="ilabel">ラウンド開始画面 総回数<small>私服/レース服/ドレス全て含めた分母</small></div>
       <div class="stepper"><div class="sbtn" data-key="aoshimaRoundTotal" data-d="-1">－</div><div class="sval" id="sv-aoshimaRoundTotal">0</div><div class="sbtn" data-key="aoshimaRoundTotal" data-d="1">＋</div></div>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="ctitle">激走チャージ中 EXアイテム獲得</div>
-    <div class="irow"><div class="ilabel">弱チェリー/ボート契機 獲得<small>設定差大(25.0%→43.0%)</small></div>
-      <div class="stepper"><div class="sbtn" data-key="exWeakCherry" data-d="-1">－</div><div class="sval" id="sv-exWeakCherry">0</div><div class="sbtn" data-key="exWeakCherry" data-d="1">＋</div></div>
+    <div class="irow"><div class="ilabel">ドレス出現<small>高設定示唆(1→37.5%まで段階的に上昇)</small></div>
+      <div class="stepper"><div class="sbtn" data-key="aoshimaDress" data-d="-1">－</div><div class="sval" id="sv-aoshimaDress">0</div><div class="sbtn" data-key="aoshimaDress" data-d="1">＋</div></div>
     </div>
-    <div class="irow"><div class="ilabel">弱チェリー/ボート契機 試行数</div>
-      <div class="stepper"><div class="sbtn" data-key="exWeakCherryTotal" data-d="-1">－</div><div class="sval" id="sv-exWeakCherryTotal">0</div><div class="sbtn" data-key="exWeakCherryTotal" data-d="1">＋</div></div>
+    <div class="irow">
+      <div class="ilabel">上位AT中 青島SPフリーズ発生</div>
+      <div class="stepper">
+        <div class="sbtn" data-key="aoshimaFreeze" data-d="-1">－</div>
+        <div class="sval" id="sv-aoshimaFreeze">0</div>
+        <div class="sbtn" data-key="aoshimaFreeze" data-d="1">＋</div>
+      </div>
     </div>
   </div>
   <button class="calcbtn" data-action="calc">計算して結果を見る →</button>
