@@ -32,6 +32,7 @@ body{padding-bottom:110px;}
 .ilabel small{font-size:10px;color:#888;display:block;margin-top:2px;}
 .ifield{background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:9px;color:#f0eee8;font-size:16px;font-weight:600;text-align:right;padding:8px 12px;width:100px;-webkit-appearance:none;}
 .ifield:focus{outline:2px solid var(--accent);border-color:transparent;}
+.ifield-disp{background:#141414;border:1px solid rgba(201,162,39,0.2);border-radius:9px;color:var(--accent2);font-size:15px;font-weight:700;text-align:right;padding:8px 12px;min-width:100px;}
 .stepper{display:flex;align-items:center;background:#1e1e1e;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);}
 .sbtn{width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:300;color:#aaa;cursor:pointer;user-select:none;-webkit-user-select:none;flex-shrink:0;touch-action:manipulation;}
 .sbtn:active{background:rgba(201,162,39,0.35);color:#fff;}
@@ -64,13 +65,27 @@ body{padding-bottom:110px;}
 .aok{color:#e8c766;background:rgba(201,162,39,.12);border:1px solid rgba(201,162,39,.3);}
 .chips{padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px;}
 .chip{font-size:10px;padding:4px 9px;border-radius:5px;background:#1e1e1e;color:#888;}
-.loglist{max-height:260px;overflow-y:auto;}
+.loglist{max-height:320px;overflow-y:auto;}
 .logitem{display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;gap:8px;}
-.logitem .lmain{flex:1;}
-.logitem .ldel{color:#e04040;font-size:11px;padding:4px 8px;cursor:pointer;}
-.badge-mini{font-size:9px;padding:2px 6px;border-radius:4px;background:#252535;color:#999;}
+.logitem .lmain{flex:1;line-height:1.5;}
+.logitem .ldel{color:#e04040;font-size:11px;padding:4px 8px;cursor:pointer;flex-shrink:0;}
+.badge-mini{font-size:9px;padding:2px 6px;border-radius:4px;background:#252535;color:#999;margin-left:4px;}
 .badge-win{background:rgba(29,158,117,.2);color:#1d9e75;}
 .badge-through{background:rgba(136,136,136,.2);color:#999;}
+.badge-fail{background:rgba(224,64,64,.15);color:#e24b4a;}
+.icon-wrap{width:38px;height:38px;flex-shrink:0;position:relative;}
+.icon-img{width:38px;height:38px;border-radius:9px;object-fit:cover;display:block;}
+.icon-fallback{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.fb-blue{background:radial-gradient(circle at 35% 30%,#7ec6f0,#2a7ab8);}
+.fb-yellow{background:radial-gradient(circle at 35% 30%,#ffe488,#c9a227);}
+.fb-black{background:radial-gradient(circle at 35% 30%,#555,#0a0a0a);border:1px solid #444;}
+.fb-bronze{background:radial-gradient(circle at 35% 30%,#c98a4b,#7a4a1e);}
+.fb-gold{background:radial-gradient(circle at 35% 30%,#ffdd6e,#c9a227);}
+.fb-kerot{background:radial-gradient(circle at 35% 30%,#8ee0a8,#1d9e75);}
+.fb-rainbow{background:conic-gradient(from 0deg,#e04040,#e8c766,#5aaa30,#4a9ede,#8878d0,#e04040);}
+.fb-gin{background:radial-gradient(circle at 35% 30%,#dcdcdc,#8a8a8a);}
+.fb-kin{background:radial-gradient(circle at 35% 30%,#ffdd6e,#c9a227);}
+.fb-niji{background:conic-gradient(from 0deg,#e04040,#e8c766,#5aaa30,#4a9ede,#8878d0,#e04040);}
 .gcard{background:#161616;margin:12px 12px 0;border-radius:14px;padding:14px;border:1px solid rgba(201,162,39,0.12);}
 .gcard h3{font-size:13px;font-weight:800;color:var(--accent2);margin-bottom:10px;}
 .gstep{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;}
@@ -90,22 +105,8 @@ body{padding-bottom:110px;}
 .fbell{position:relative;width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;cursor:pointer;touch-action:manipulation;box-shadow:0 4px 14px rgba(201,162,39,0.4);}
 .fbell:active{transform:scale(0.92);}
 .fbell .badge{position:absolute;top:-4px;right:-4px;background:#e04040;color:#fff;font-size:10px;font-weight:800;border-radius:10px;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
-.wizardstep{display:none;}
-.wizardstep.on{display:block;}
 .small-note{font-size:10px;color:#666;padding:0 14px 8px;line-height:1.6;}
-.icon-wrap{width:38px;height:38px;flex-shrink:0;position:relative;}
-.icon-img{width:38px;height:38px;border-radius:9px;object-fit:cover;display:block;}
-.icon-fallback{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
-.fb-blue{background:radial-gradient(circle at 35% 30%,#7ec6f0,#2a7ab8);}
-.fb-yellow{background:radial-gradient(circle at 35% 30%,#ffe488,#c9a227);}
-.fb-black{background:radial-gradient(circle at 35% 30%,#555,#0a0a0a);border:1px solid #444;}
-.fb-bronze{background:radial-gradient(circle at 35% 30%,#c98a4b,#7a4a1e);}
-.fb-gold{background:radial-gradient(circle at 35% 30%,#ffdd6e,#c9a227);}
-.fb-kerot{background:radial-gradient(circle at 35% 30%,#8ee0a8,#1d9e75);}
-.fb-rainbow{background:conic-gradient(from 0deg,#e04040,#e8c766,#5aaa30,#4a9ede,#8878d0,#e04040);}
-.fb-gin{background:radial-gradient(circle at 35% 30%,#dcdcdc,#8a8a8a);}
-.fb-kin{background:radial-gradient(circle at 35% 30%,#ffdd6e,#c9a227);}
-.fb-niji{background:conic-gradient(from 0deg,#e04040,#e8c766,#5aaa30,#4a9ede,#8878d0,#e04040);}
+.stepnum{display:inline-flex;width:16px;height:16px;background:var(--accent);color:#0a0a0a;border-radius:50%;font-size:9px;font-weight:800;align-items:center;justify-content:center;margin-right:5px;}
 </style>
 </head>
 <body>
@@ -133,8 +134,20 @@ body{padding-bottom:110px;}
   <div class="card">
     <div class="ctitle">基本データ</div>
     <div class="irow">
-      <div class="ilabel">総ゲーム数</div>
+      <div class="ilabel">総回転数<small>通常時+AT中の合計。5枚役の分母に使用</small></div>
       <input class="ifield" type="number" id="f-total" inputmode="numeric" placeholder="0" min="0">
+    </div>
+    <div class="irow">
+      <div class="ilabel">通常時ゲーム数<small>自動計算（実戦メモのAT当選/直撃/CZ成功分の合計）</small></div>
+      <div class="ifield-disp" id="disp-normalTotal">0</div>
+    </div>
+    <div class="irow">
+      <div class="ilabel">AT初当たり確率<small>自動計算（通常時ゲーム数÷AT当選回数）</small></div>
+      <div class="ifield-disp" id="disp-atRate">-</div>
+    </div>
+    <div class="irow">
+      <div class="ilabel">5枚役確率<small>自動計算（総回転数÷5枚役カウント）</small></div>
+      <div class="ifield-disp" id="disp-bellRate">-</div>
     </div>
     <div class="irow">
       <div class="ilabel">5枚役 合算カウント<small>右下の⚪ボタンでも加算できます</small></div>
@@ -160,42 +173,6 @@ body{padding-bottom:110px;}
         <div class="sbtn" data-key="serifuB" data-d="1">＋</div>
       </div>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="ctitle">初当たり契機（周期以外）</div>
-    <div class="irow">
-      <div class="ilabel">超抜チャレンジ 突入回数</div>
-      <div class="stepper">
-        <div class="sbtn" data-key="chogekiEntry" data-d="-1">－</div>
-        <div class="sval" id="sv-chogekiEntry">0</div>
-        <div class="sbtn" data-key="chogekiEntry" data-d="1">＋</div>
-      </div>
-    </div>
-    <div class="irow">
-      <div class="ilabel">超抜チャレンジ 成功回数<small>AT当選</small></div>
-      <div class="stepper">
-        <div class="sbtn" data-key="chogekiSuccess" data-d="-1">－</div>
-        <div class="sval" id="sv-chogekiSuccess">0</div>
-        <div class="sbtn" data-key="chogekiSuccess" data-d="1">＋</div>
-      </div>
-    </div>
-    <div class="irow">
-      <div class="ilabel">AT直撃（弱レア役）<small>ボート/弱チェリー/弱チャンス目 → 設定4以上確定</small></div>
-      <div class="stepper">
-        <div class="sbtn" data-key="chokugekiWeak" data-d="-1">－</div>
-        <div class="sval" id="sv-chokugekiWeak">0</div>
-        <div class="sbtn" data-key="chokugekiWeak" data-d="1">＋</div>
-      </div>
-    </div>
-    <div class="irow">
-      <div class="ilabel">AT直撃（強レア役）<small>強チェリー/強チャンス目</small></div>
-      <div class="stepper">
-        <div class="sbtn" data-key="chokugekiStrong" data-d="-1">－</div>
-        <div class="sval" id="sv-chokugekiStrong">0</div>
-        <div class="sbtn" data-key="chokugekiStrong" data-d="1">＋</div>
-      </div>
-    </div>
     <div class="irow">
       <div class="ilabel">上位AT中 青島SPフリーズ発生</div>
       <div class="stepper">
@@ -205,23 +182,29 @@ body{padding-bottom:110px;}
       </div>
     </div>
   </div>
+  <div class="dnote">周期到達・直撃・CZ出現は「実戦メモ」タブで記録してください。通常時ゲーム数の合計もそこから自動計算されます。</div>
   <button class="calcbtn" data-action="calc">計算して結果を見る →</button>
 </div>
 
-<!-- 実戦メモ（周期到達ウィザード） -->
+<!-- 実戦メモ -->
 <div id="p-log" class="page">
   <div class="card">
-    <div class="ctitle">周期到達を記録する</div>
-    <div class="sectitle">① 到達pt</div>
-    <div class="btnrow" id="wiz-pt">
-      <div class="choice" data-pt="111">111</div>
-      <div class="choice" data-pt="222">222</div>
-      <div class="choice" data-pt="333">333</div>
-      <div class="choice" data-pt="444">444</div>
-      <div class="choice" data-pt="555">555</div>
-      <div class="choice" data-pt="666">666</div>
+    <div class="ctitle">出来事を記録する</div>
+
+    <div class="sectitle"><span class="stepnum">1</span>ゲーム数<small style="font-weight:400;color:#666;">現時点の累計ゲーム数（通常時）。前回AT当選からの通算</small></div>
+    <div class="irow" style="padding:8px 14px;">
+      <div class="ilabel">ゲーム数</div>
+      <input class="ifield" type="number" id="wiz-game" inputmode="numeric" placeholder="例: 340" min="0" style="width:130px;">
     </div>
-    <div class="sectitle">② 周期数</div>
+
+    <div class="sectitle"><span class="stepnum">2</span>契機</div>
+    <div class="btnrow" id="wiz-trigger">
+      <div class="choice" data-trigger="yushutsu">周期到達</div>
+      <div class="choice" data-trigger="chokugeki">直撃</div>
+      <div class="choice" data-trigger="chogeki">CZ出現</div>
+    </div>
+
+    <div class="sectitle"><span class="stepnum">3</span>周期数<small style="font-weight:400;color:#666;">途中入店の場合もその時点の周期を選択</small></div>
     <div class="btnrow" id="wiz-cycle">
       <div class="choice" data-cycle="1">1周期</div>
       <div class="choice" data-cycle="2">2周期</div>
@@ -230,16 +213,32 @@ body{padding-bottom:110px;}
       <div class="choice" data-cycle="5">5周期</div>
       <div class="choice" data-cycle="6">6周期</div>
     </div>
-    <div class="sectitle">③ 到達区分<small style="font-weight:400;color:#666;">前回555pt以上だった場合は「短縮」を選択</small></div>
-    <div class="btnrow" id="wiz-type">
-      <div class="choice" data-type="normal">通常到達</div>
-      <div class="choice" data-type="shortened">短縮到達</div>
+
+    <div id="wiz-pt-block" style="display:none;">
+      <div class="sectitle"><span class="stepnum">4</span>到達pt</div>
+      <div class="btnrow" id="wiz-pt">
+        <div class="choice" data-pt="111">111</div>
+        <div class="choice" data-pt="222">222</div>
+        <div class="choice" data-pt="333">333</div>
+        <div class="choice" data-pt="444">444</div>
+        <div class="choice" data-pt="555">555</div>
+        <div class="choice" data-pt="666">666</div>
+      </div>
     </div>
-    <div class="sectitle">④ 結果</div>
-    <div class="btnrow" id="wiz-result">
-      <div class="choice" data-result="win">〇 AT当選</div>
-      <div class="choice" data-result="through">× スルー</div>
+
+    <div id="wiz-approx-block" style="display:none;">
+      <div class="sectitle"><span class="stepnum">4</span>だいたいの到達pt<small style="font-weight:400;color:#666;">任意。例:570なら111〜555をスルーしたことがわかります</small></div>
+      <div class="irow" style="padding:8px 14px;">
+        <div class="ilabel">目安pt</div>
+        <input class="ifield" type="number" id="wiz-approxpt" inputmode="numeric" placeholder="例: 570" min="0" style="width:130px;">
+      </div>
     </div>
+
+    <div id="wiz-result-block" style="display:none;">
+      <div class="sectitle"><span class="stepnum">5</span>結果</div>
+      <div class="btnrow" id="wiz-result"></div>
+    </div>
+
     <button class="subbtn" id="wiz-add" style="border-color:var(--accent);color:var(--accent2);">この内容を記録に追加</button>
   </div>
 
@@ -282,7 +281,7 @@ body{padding-bottom:110px;}
   </div>
 
   <div class="card">
-    <div class="ctitle">確定示唆演出（出現したらON）</div>
+    <div class="ctitle">確定示唆演出（出現したらカウント）</div>
     <div class="irow">
       <div class="icon-wrap"><img class="icon-img" src="trophy_bronze.png" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="icon-fallback fb-bronze" style="display:none;">🏆</div></div>
       <div class="ilabel">銅トロフィー<small>設定2以上確定</small></div>
@@ -354,7 +353,7 @@ body{padding-bottom:110px;}
     <div class="chips" id="chips"></div>
   </div>
   <div class="dnote" id="data-note">
-    データ根拠：5枚役/セリフ比率は実測値。周期到達pt分布(444/222等)は推定値混じり(666ptのみ実測)。3周期以内当選率は設定4,5,6実測・設定1,2は延長推定。設定3は存在しないため5段階(1,2,4,5,6)で判別。
+    データ根拠：5枚役/セリフ比率は実測値。周期到達pt分布(444/222等)は推定値混じり(666ptのみ実測)。3周期以内当選率は設定4,5,6実測・設定1,2は延長推定。CZ/直撃時のだいたいのptは参考表示のみで自動判別には未反映。設定3は存在しないため5段階(1,2,4,5,6)で判別。
   </div>
   <button class="calcbtn" data-action="calc" style="margin-top:10px;">再計算</button>
 </div>
@@ -363,18 +362,19 @@ body{padding-bottom:110px;}
 <div id="p-guide" class="page">
   <div class="gcard">
     <h3>📱 使い方</h3>
-    <div class="gstep"><div class="gno">1</div><div class="gtxt"><strong>基本データ</strong>タブで総ゲーム数・5枚役・セリフ・超抜/直撃を記録</div></div>
-    <div class="gstep"><div class="gno">2</div><div class="gtxt"><strong>実戦メモ</strong>タブで周期到達のたびに「pt→周期数→通常/短縮→結果」を記録</div></div>
-    <div class="gstep"><div class="gno">3</div><div class="gtxt"><strong>示唆演出</strong>タブでAT終了画面のメダル・確定示唆演出を記録</div></div>
+    <div class="gstep"><div class="gno">1</div><div class="gtxt">打ち始めたら<strong>基本データ</strong>タブで総回転数を随時更新</div></div>
+    <div class="gstep"><div class="gno">2</div><div class="gtxt"><strong>実戦メモ</strong>タブで、周期到達・直撃・CZ出現のたびに「ゲーム数→契機→周期数→pt→結果」の順に記録</div></div>
+    <div class="gstep"><div class="gno">3</div><div class="gtxt">メダルや確定演出が出たら<strong>示唆演出</strong>タブでカウント</div></div>
     <div class="gstep"><div class="gno">4</div><div class="gtxt">「計算して結果を見る」で<strong>結果</strong>タブに各設定の確率が表示される</div></div>
   </div>
   <div class="gcard" style="margin-top:10px;">
     <h3>⚠️ 注意点</h3>
     <ul class="gnote">
+      <li>実戦メモの「ゲーム数」は、前回AT当選からの累計ゲーム数を毎回入力してください（スルーやCZ失敗の際は数値が引き継がれるため、AT当選時の数値だけが通常時ゲーム数の合計に加算されます）</li>
+      <li>AT中ゲーム数は「総回転数－通常時ゲーム数の合計」で自動計算されます</li>
       <li>5枚役は通常時・AT中の区別なく合算でカウントしてください（1500G程度から判別力が安定します）</li>
-      <li>周期到達pt「短縮到達」は、前回のpt到達が555pt以上だった場合のみ選んでください（1周期目は自動判定されるため、通常/短縮の区別は不要です）</li>
-      <li>黒メダル出現の直後1回のAT終了画面は、記録前に必ず「直前が黒メダルだった」をONにしてから記録してください（別抽選のため通常集計から除外されます）</li>
-      <li>ライバルモード・究極Vモンキー・エキサイティングレース等は設定差がない（または判別に使えない）ため記録項目に含めていません</li>
+      <li>周期数は途中入店の場合もその時点の周期を選んでください（通常/短縮到達は自動判定されます）</li>
+      <li>黒メダル出現の直後1回のAT終了画面は、記録前に必ず「直前が黒メダルだった」をONにしてから記録してください</li>
       <li>5000G未満、周期到達10回未満では判別精度が大きく下がります</li>
     </ul>
   </div>
@@ -391,9 +391,8 @@ body{padding-bottom:110px;}
 // 状態管理
 // ================================================================================
 const S = {
-  total:0, bell5:0, serifuA:0, serifuB:0,
-  chogekiEntry:0, chogekiSuccess:0, chokugekiWeak:0, chokugekiStrong:0, aoshimaFreeze:0,
-  cycleLog: [], // {pt, cycle, type, result}
+  total:0, bell5:0, serifuA:0, serifuB:0, aoshimaFreeze:0,
+  cycleLog: [], // 実戦メモの記録一覧
   afterBlackFlag: false,
   medalBlue:0, medalYellow:0, medalBlack:0, medalNone:0, medalExcluded:0,
   trophyBronze:0, trophyGold:0, trophyKerot:0, trophyRainbow:0,
@@ -401,8 +400,8 @@ const S = {
   over456:0, over803:0, over666:0,
   enokiSumi:0, aoshimaHatano:0,
 };
-const history = []; // undo stack (簡易: 直近の変更前スナップショット)
-const SAVE_KEY = 'monkeyturn5_hanbetsu_v1';
+const history = [];
+const SAVE_KEY = 'monkeyturn5_hanbetsu_v3';
 
 function pushHistory(){
   history.push(JSON.parse(JSON.stringify(S)));
@@ -425,8 +424,15 @@ function loadState(){
   }catch(e){}
 }
 
+function computeNormalStats(){
+  const winEntries = S.cycleLog.filter(e=>e.addToTotal);
+  const normalTotal = winEntries.reduce((sum,e)=>sum+(e.game||0),0);
+  const winCount = winEntries.length;
+  return {normalTotal, winCount};
+}
+
 function renderAll(){
-  ['bell5','serifuA','serifuB','chogekiEntry','chogekiSuccess','chokugekiWeak','chokugekiStrong','aoshimaFreeze',
+  ['bell5','serifuA','serifuB','aoshimaFreeze',
    'medalBlue','medalYellow','medalBlack','medalNone',
    'trophyBronze','trophyGold','trophyKerot','trophyRainbow','funeGin','funeKin','funeNiji',
    'over456','over803','over666','enokiSumi','aoshimaHatano'].forEach(k=>{
@@ -436,6 +442,12 @@ function renderAll(){
   document.getElementById('f-total').value = S.total || '';
   document.getElementById('fbell-badge').textContent = S.bell5;
   document.getElementById('tgl-afterblack').classList.toggle('on', S.afterBlackFlag);
+
+  const {normalTotal, winCount} = computeNormalStats();
+  document.getElementById('disp-normalTotal').textContent = normalTotal + 'G';
+  document.getElementById('disp-atRate').textContent = winCount>0 ? ('1/'+(normalTotal/winCount).toFixed(1)) : '-';
+  document.getElementById('disp-bellRate').textContent = (S.bell5>0 && S.total>0) ? ('1/'+(S.total/S.bell5).toFixed(2)) : '-';
+
   renderLogList();
 }
 
@@ -451,6 +463,15 @@ function showTab(pageId, el){
 // ステッパー/フローティングベル/トグル操作
 // ================================================================================
 function stepChange(key,d){
+  if(['medalBlue','medalYellow','medalBlack','medalNone'].includes(key) && d>0 && S.afterBlackFlag){
+    pushHistory();
+    S[key] = Math.max(0,(S[key]||0)+d);
+    S.medalExcluded = (S.medalExcluded||0)+1;
+    S.afterBlackFlag = false;
+    renderAll();
+    saveState();
+    return;
+  }
   pushHistory();
   S[key] = Math.max(0,(S[key]||0)+d);
   renderAll();
@@ -507,40 +528,113 @@ document.getElementById('f-total').addEventListener('input', function(){
 });
 
 // ================================================================================
-// 周期到達ウィザード
+// 実戦メモウィザード
 // ================================================================================
-const wizState = {pt:null, cycle:null, type:null, result:null};
-['wiz-pt','wiz-cycle','wiz-type','wiz-result'].forEach(id=>{
-  document.getElementById(id).addEventListener('click', function(e){
-    const c = e.target.closest('.choice');
-    if(!c) return;
-    const group = this.querySelectorAll('.choice');
-    group.forEach(g=>g.classList.remove('sel'));
-    c.classList.add('sel');
-    if(id==='wiz-pt') wizState.pt = parseInt(c.dataset.pt);
-    if(id==='wiz-cycle') wizState.cycle = parseInt(c.dataset.cycle);
-    if(id==='wiz-type') wizState.type = c.dataset.type;
-    if(id==='wiz-result') wizState.result = c.dataset.result;
-  });
-});
-document.getElementById('wiz-add').addEventListener('click', function(){
-  if(!wizState.pt || !wizState.cycle || !wizState.result){
-    alert('pt・周期数・結果は必須です');
-    return;
+const RESULT_OPTIONS = {
+  yushutsu: [{v:'win',label:'〇 AT当選'},{v:'through',label:'× スルー'}],
+  chokugeki: [{v:'weak',label:'弱レア役'},{v:'strong',label:'強レア役'}],
+  chogeki: [{v:'success',label:'〇 成功'},{v:'fail',label:'× 失敗'}],
+};
+
+const wizState = {game:null, trigger:null, cycle:null, pt:null, approxPt:null, result:null};
+
+function updateWizardVisibility(){
+  const t = wizState.trigger;
+  document.getElementById('wiz-pt-block').style.display = (t==='yushutsu') ? 'block' : 'none';
+  document.getElementById('wiz-approx-block').style.display = (t==='chokugeki'||t==='chogeki') ? 'block' : 'none';
+  const resultBlock = document.getElementById('wiz-result-block');
+  if(t){
+    resultBlock.style.display='block';
+    const container = document.getElementById('wiz-result');
+    container.innerHTML = RESULT_OPTIONS[t].map(o=>`<div class="choice" data-result="${o.v}">${o.label}</div>`).join('');
+  } else {
+    resultBlock.style.display='none';
   }
-  let type = wizState.type;
-  if(wizState.cycle===1) type='cycle1'; // 1周期目は自動判定(通常/短縮の概念なし)
-  if(!type){ alert('到達区分(通常/短縮)を選択してください（1周期目は選択不要）'); return; }
+}
+
+document.getElementById('wiz-game').addEventListener('input', function(){
+  wizState.game = this.value ? parseInt(this.value) : null;
+});
+document.getElementById('wiz-approxpt').addEventListener('input', function(){
+  wizState.approxPt = this.value ? parseInt(this.value) : null;
+});
+document.getElementById('wiz-trigger').addEventListener('click', function(e){
+  const c = e.target.closest('.choice');
+  if(!c) return;
+  this.querySelectorAll('.choice').forEach(g=>g.classList.remove('sel'));
+  c.classList.add('sel');
+  wizState.trigger = c.dataset.trigger;
+  wizState.result = null;
+  updateWizardVisibility();
+});
+document.getElementById('wiz-cycle').addEventListener('click', function(e){
+  const c = e.target.closest('.choice');
+  if(!c) return;
+  this.querySelectorAll('.choice').forEach(g=>g.classList.remove('sel'));
+  c.classList.add('sel');
+  wizState.cycle = parseInt(c.dataset.cycle);
+});
+document.getElementById('wiz-pt').addEventListener('click', function(e){
+  const c = e.target.closest('.choice');
+  if(!c) return;
+  this.querySelectorAll('.choice').forEach(g=>g.classList.remove('sel'));
+  c.classList.add('sel');
+  wizState.pt = parseInt(c.dataset.pt);
+});
+document.getElementById('wiz-result').addEventListener('click', function(e){
+  const c = e.target.closest('.choice');
+  if(!c) return;
+  this.querySelectorAll('.choice').forEach(g=>g.classList.remove('sel'));
+  c.classList.add('sel');
+  wizState.result = c.dataset.result;
+});
+
+function getPrevYushutsuPt(){
+  const prev = S.cycleLog.find(e=>e.trigger==='yushutsu');
+  return prev ? prev.pt : null;
+}
+
+document.getElementById('wiz-add').addEventListener('click', function(){
+  if(wizState.game===null || wizState.game===undefined){ alert('ゲーム数を入力してください'); return; }
+  if(!wizState.trigger){ alert('契機を選択してください'); return; }
+  if(!wizState.cycle){ alert('周期数を選択してください'); return; }
+  if(!wizState.result){ alert('結果を選択してください'); return; }
+  if(wizState.trigger==='yushutsu' && !wizState.pt){ alert('到達ptを選択してください'); return; }
+
+  const entry = {
+    trigger: wizState.trigger,
+    game: wizState.game,
+    cycle: wizState.cycle,
+    pt: wizState.trigger==='yushutsu' ? wizState.pt : null,
+    approxPt: wizState.trigger!=='yushutsu' ? wizState.approxPt : null,
+    result: wizState.result,
+    ts: Date.now(),
+  };
+  // pt分布用の到達区分を自動判定(優出のみ)
+  if(entry.trigger==='yushutsu'){
+    if(entry.cycle===1){ entry.type='cycle1'; }
+    else{
+      const prevPt = getPrevYushutsuPt();
+      entry.type = (prevPt && prevPt>=555) ? 'shortened' : 'normal';
+    }
+  }
+  // 合計ゲーム数に加算するかどうか(AT当選・弱/強直撃・CZ成功のみ加算)
+  entry.addToTotal = (entry.result==='win' || entry.result==='weak' || entry.result==='strong' || entry.result==='success');
 
   pushHistory();
-  S.cycleLog.unshift({pt:wizState.pt, cycle:wizState.cycle, type:type, result:wizState.result, ts:Date.now()});
-  // ウィザードリセット
-  wizState.pt=null; wizState.cycle=null; wizState.type=null; wizState.result=null;
-  document.querySelectorAll('#wiz-pt .choice,#wiz-cycle .choice,#wiz-type .choice,#wiz-result .choice').forEach(c=>c.classList.remove('sel'));
+  S.cycleLog.unshift(entry);
+
+  wizState.game=null; wizState.trigger=null; wizState.cycle=null; wizState.pt=null; wizState.approxPt=null; wizState.result=null;
+  document.getElementById('wiz-game').value='';
+  document.getElementById('wiz-approxpt').value='';
+  document.querySelectorAll('#wiz-trigger .choice,#wiz-cycle .choice,#wiz-pt .choice').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('wiz-result').innerHTML='';
+  updateWizardVisibility();
   renderAll();
   saveState();
 });
 
+const TRIGGER_LABEL = {yushutsu:'周期到達', chokugeki:'直撃', chogeki:'CZ出現'};
 function renderLogList(){
   const list = document.getElementById('loglist');
   const empty = document.getElementById('loglist-empty');
@@ -550,11 +644,21 @@ function renderLogList(){
     return;
   }
   empty.style.display='none';
-  const typeLabel = {normal:'通常', shortened:'短縮', cycle1:'1周期目'};
   list.innerHTML = S.cycleLog.map((e,idx)=>{
-    const badge = e.result==='win' ? '<span class="badge-mini badge-win">〇当選</span>' : '<span class="badge-mini badge-through">×スルー</span>';
+    let badge, detail;
+    if(e.trigger==='yushutsu'){
+      badge = e.result==='win' ? '<span class="badge-mini badge-win">〇当選</span>' : '<span class="badge-mini badge-through">×スルー</span>';
+      const typeLabel = {normal:'通常',shortened:'短縮',cycle1:'1周期目'}[e.type]||'';
+      detail = `${e.cycle}周期目 / ${e.pt}pt <span class="badge-mini">${typeLabel}</span>`;
+    } else if(e.trigger==='chokugeki'){
+      badge = e.result==='strong' ? '<span class="badge-mini badge-win">強レア直撃</span>' : '<span class="badge-mini badge-win">弱レア直撃</span>';
+      detail = `${e.cycle}周期目${e.approxPt?' / 目安'+e.approxPt+'pt':''}`;
+    } else {
+      badge = e.result==='success' ? '<span class="badge-mini badge-win">〇成功</span>' : '<span class="badge-mini badge-fail">×失敗</span>';
+      detail = `${e.cycle}周期目${e.approxPt?' / 目安'+e.approxPt+'pt':''}（CZ出現）`;
+    }
     return `<div class="logitem">
-      <div class="lmain">${e.cycle}周期目 / ${e.pt}pt <span class="badge-mini">${typeLabel[e.type]}</span> ${badge}</div>
+      <div class="lmain">[${TRIGGER_LABEL[e.trigger]}] ${detail} ${badge}<br><span style="color:#666;">G数:${e.game}${e.addToTotal?'（合計に加算）':'（合計に含めず）'}</span></div>
       <div class="ldel" data-delidx="${idx}">削除</div>
     </div>`;
   }).join('');
@@ -568,41 +672,15 @@ function renderLogList(){
   });
 }
 
-// メダル記録時の黒メダル後除外処理(青/黄/黒/なしのいずれかを押した時に判定)
-['medalBlue','medalYellow','medalBlack','medalNone'].forEach(key=>{
-  // 既存のsbtnハンドラに加えて、afterBlackFlagがONなら除外カウントに振り替える特別処理をstepChange内で行う
-});
-const origStepChange = stepChange;
-stepChange = function(key,d){
-  if(['medalBlue','medalYellow','medalBlack','medalNone'].includes(key) && d>0 && S.afterBlackFlag){
-    pushHistory();
-    S[key] = Math.max(0,(S[key]||0)+d);
-    S.medalExcluded = (S.medalExcluded||0)+1;
-    S.afterBlackFlag = false; // 1回使ったら自動OFF
-    renderAll();
-    saveState();
-    return;
-  }
-  origStepChange(key,d);
-};
-
 // ================================================================================
 // 判別テーブル(設定1,2,4,5,6の5段階)
 // ================================================================================
 const SETTINGS = [1,2,4,5,6];
 
-// 5枚役合算確率
 const BELL5 = {1:1/38.15, 2:1/36.86, 4:1/30.27, 5:1/24.51, 6:1/22.53};
-
-// 激走チャージ後セリフ A(落ち着くんだ憲二)比率
 const SERIFU_A = {1:0.50, 2:0.40, 4:0.40, 5:0.70, 6:0.40};
-
-// 1周期目AT当選率(実測ベース、設定1,2は延長推定)
 const CYCLE1_WIN = {1:0.30, 2:0.36, 4:0.417, 5:0.476, 6:0.506};
-// 3周期以内AT当選率(実測ベース、設定1,2は延長推定)
 const CYCLE3_WIN = {1:0.65, 2:0.75, 4:0.833, 5:0.803, 6:0.900};
-
-// 周期到達pt分布(通常到達、1周期目・短縮を除く想定)
 const PT_DIST = {
   1:{111:0,222:38.6,333:1.8,444:38.6,555:1.8,666:12.7},
   2:{111:0,222:44.1,333:1.7,444:34.1,555:2.6,666:11.0},
@@ -610,29 +688,18 @@ const PT_DIST = {
   5:{111:0,222:54.8,333:0.9,444:25.2,555:3.5,666:8.6},
   6:{111:0,222:60.3,333:0.9,444:21.6,555:3.5,666:6.6},
 };
-// 1周期目のpt内訳(111:222)
-const CYCLE1_PT = {1:{111:30,222:70},2:{111:28,222:72},4:{111:25,222:75},5:{111:22,222:78},6:{111:20,222:80}};
-
-// AT終了 即優出突入率
 const YUSHUTSU_RATE = {1:0.016,2:0.017,4:0.022,5:0.030,6:0.037};
-// 黒メダル出現率
 const BLACK_MEDAL = {1:0.0125,2:0.015,4:0.040,5:0.045,6:0.045};
-// メダル等なし率(推定)
 const MEDAL_NONE = {1:0.45,2:0.42,4:0.38,5:0.35,6:0.33};
-// AT直撃(弱レア役)率 ※設定1,2は発生想定なし(0近似)
 const CHOKUGEKI_WEAK = {1:0.0001,2:0.0001,4:0.008,5:0.020,6:0.031};
-// AT直撃(強レア役)率
 const CHOKUGEKI_STRONG = {1:0.004,2:0.012,4:0.020,5:0.039,6:0.063};
-// 青島SPフリーズ発生率(1セットあたり概算)
 const AOSHIMA_FREEZE = {1:0.001,2:0.001,4:0.001,5:0.05,6:0.125};
 
-// 確定示唆(ハードクリップ): [キー, 最低設定]
 const HARD_CLIP = [
   ['trophyBronze',2], ['trophyGold',4], ['trophyKerot',5], ['trophyRainbow',6],
   ['funeKin',4], ['funeNiji',6],
   ['over456',4], ['over803',5], ['over666',6],
   ['enokiSumi',4], ['aoshimaHatano',5],
-  ['chokugekiWeak',4],
 ];
 const HARD_CLIP_LABEL = {
   trophyBronze:'銅トロフィー(設定2以上確定)', trophyGold:'金トロフィー(設定4以上確定)',
@@ -640,24 +707,26 @@ const HARD_CLIP_LABEL = {
   funeKin:'金舟券(設定4以上濃厚)', funeNiji:'虹舟券(設定6濃厚)',
   over456:'獲得枚数456 OVER(設定4以上)', over803:'獲得枚数803 OVER(設定5以上)', over666:'獲得枚数666 OVER(設定6)',
   enokiSumi:'榎木(紫)/澄(紫)(設定4以上〜6濃厚)', aoshimaHatano:'青島&波多野(設定5以上濃厚)',
-  chokugekiWeak:'弱レア役AT直撃(設定4以上確定)',
 };
 
 const COLORS = {1:'#6b6b70',2:'#4a9ede',4:'#5aaa30',5:'#ba7517',6:'#e04040'};
 
 // ================================================================================
-// 計算エンジン(log尤度ベイズ)
+// 計算エンジン
 // ================================================================================
 function calc(){
+  // 通常時ゲーム数合計(AT当選/直撃/CZ成功時のみ加算)
+  const {normalTotal} = computeNormalStats();
   const total = S.total;
-  const rotScale = Math.max(0.1, Math.min(total/3000, 1)); // 3000Gでフル稼働目安
+  const atGames = Math.max(total - normalTotal, 0);
+  const rotScale = Math.max(0.1, Math.min(total/3000, 1));
 
   const sc = {};
   SETTINGS.forEach(s=>{ sc[s]=0; });
 
   // --- 5枚役 ---
   if(total>0 && S.bell5>0){
-    const wBell = Math.min(total/1500,1) * 0.9; // 1500Gで収束目安、重み高
+    const wBell = Math.min(total/1500,1) * 0.9;
     SETTINGS.forEach(s=>{
       const p = BELL5[s];
       sc[s] += wBell * (S.bell5*Math.log(p) + (total-S.bell5)*Math.log(Math.max(1-p,1e-10)));
@@ -674,13 +743,13 @@ function calc(){
     });
   }
 
-  // --- 周期到達ログ(1周期目当選率・3周期以内当選率・pt分布) ---
-  if(S.cycleLog.length>0){
-    const cycle1Logs = S.cycleLog.filter(e=>e.cycle===1);
-    const within3Logs = S.cycleLog.filter(e=>e.cycle<=3);
-    const normalLogs = S.cycleLog.filter(e=>e.type==='normal'); // 純粋pt分布用
+  // --- 周期到達ログ ---
+  const yushutsuLogs = S.cycleLog.filter(e=>e.trigger==='yushutsu');
+  if(yushutsuLogs.length>0){
+    const cycle1Logs = yushutsuLogs.filter(e=>e.cycle===1);
+    const within3Logs = yushutsuLogs.filter(e=>e.cycle<=3);
+    const normalLogs = yushutsuLogs.filter(e=>e.type==='normal');
 
-    // 1周期目当選率
     if(cycle1Logs.length>0){
       const wins = cycle1Logs.filter(e=>e.result==='win').length;
       const w = Math.min(cycle1Logs.length/8,1) * 0.7;
@@ -689,7 +758,6 @@ function calc(){
         sc[s] += w * (wins*Math.log(p) + (cycle1Logs.length-wins)*Math.log(Math.max(1-p,1e-10)));
       });
     }
-    // 3周期以内当選率(粗い近似: 3周期以内エントリのうちwin比率)
     if(within3Logs.length>0){
       const wins = within3Logs.filter(e=>e.result==='win').length;
       const w = Math.min(within3Logs.length/10,1) * 0.8;
@@ -698,7 +766,6 @@ function calc(){
         sc[s] += w * (wins*Math.log(p) + (within3Logs.length-wins)*Math.log(Math.max(1-p,1e-10)));
       });
     }
-    // pt分布(通常到達のみ、参考程度の重み)
     if(normalLogs.length>0){
       const w = Math.min(normalLogs.length/10,1) * 0.35;
       SETTINGS.forEach(s=>{
@@ -710,19 +777,17 @@ function calc(){
     }
   }
 
-  // --- 超抜チャレンジ・AT直撃 ---
-  if(S.chokugekiStrong>0 || S.chokugekiWeak>0){
-    const attempts = Math.max(S.chokugekiStrong,1);
-    const wDirect = 0.5;
+  // --- 直撃(弱/強レア) ---
+  const chokugekiLogs = S.cycleLog.filter(e=>e.trigger==='chokugeki');
+  const weakCount = chokugekiLogs.filter(e=>e.result==='weak').length;
+  const strongCount = chokugekiLogs.filter(e=>e.result==='strong').length;
+  if(strongCount>0){
     SETTINGS.forEach(s=>{
-      const p = CHOKUGEKI_STRONG[s];
-      sc[s] += wDirect * (S.chokugekiStrong*Math.log(Math.max(p,1e-6)));
+      sc[s] += 0.5 * strongCount * Math.log(Math.max(CHOKUGEKI_STRONG[s],1e-6));
     });
   }
-
-  // --- 即優出突入率 ---
-  // (簡易実装: AT終了回数の推定が難しいため、周期到達ログのwin数を分母代用)
-  const atEndCount = S.cycleLog.filter(e=>e.result==='win').length + S.chogekiSuccess + S.chokugekiWeak + S.chokugekiStrong;
+  // 弱レア直撃は設定4以上確定(ハードクリップ)
+  const weakDirectClip = weakCount>0;
 
   // --- 黒メダル出現率・メダルなし率 ---
   const medalTotal = S.medalBlue+S.medalYellow+S.medalBlack+S.medalNone;
@@ -749,28 +814,27 @@ function calc(){
   // --- 確定示唆(ハードクリップ) ---
   const activeClips = [];
   HARD_CLIP.forEach(([key,minS])=>{
-    if((S[key]||0)>0) activeClips.push([key,minS]);
+    if((S[key]||0)>0) activeClips.push([key,minS,S[key]]);
   });
+  if(weakDirectClip) activeClips.push(['chokugekiWeak',4,weakCount]);
   activeClips.forEach(([key,minS])=>{
     SETTINGS.forEach(s=>{ if(s<minS) sc[s] = -1e9; });
   });
 
-  // rotScaleを軽く反映(序盤は判別を弱める、ただし確定示唆は対象外なので既にsc計算後にクリップ済み)
   SETTINGS.forEach(s=>{
-    if(sc[s] > -1e8){ sc[s] = sc[s]*Math.max(rotScale,0.3) + sc[s]*(1-Math.max(rotScale,0.3))*0; }
+    if(sc[s] > -1e8){ sc[s] = sc[s]*Math.max(rotScale,0.3); }
   });
 
-  // softmax
   const maxLk = Math.max(...SETTINGS.map(s=>sc[s]));
   let sumE=0; const expS={};
   SETTINGS.forEach(s=>{ expS[s]=Math.exp(sc[s]-maxLk); sumE+=expS[s]; });
   const probs={};
   SETTINGS.forEach(s=>{ probs[s]=expS[s]/sumE; });
 
-  renderResult(probs, activeClips, medalTotal, atEndCount);
+  renderResult(probs, activeClips, medalTotal, normalTotal, atGames);
 }
 
-function renderResult(probs, activeClips, medalTotal, atEndCount){
+function renderResult(probs, activeClips, medalTotal, normalTotal, atGames){
   let bh='';
   SETTINGS.forEach(s=>{
     const pct = Math.round(probs[s]*100);
@@ -811,8 +875,8 @@ function renderResult(probs, activeClips, medalTotal, atEndCount){
   document.getElementById('vmsg').textContent = msg;
 
   let ah='';
-  activeClips.forEach(([key,minS])=>{
-    ah += `<div class="alert aok">✓ ${HARD_CLIP_LABEL[key]} ×${S[key]}回</div>`;
+  activeClips.forEach(([key,minS,cnt])=>{
+    ah += `<div class="alert aok">✓ ${HARD_CLIP_LABEL[key]||'弱レア役AT直撃(設定4以上確定)'} ×${cnt}回</div>`;
   });
   document.getElementById('alerts-area').innerHTML = ah;
 
@@ -829,18 +893,22 @@ function renderResult(probs, activeClips, medalTotal, atEndCount){
     const nonePct = Math.round(S.medalNone/medalTotal*100);
     ch += `<span class="chip">メダルなし率 ${nonePct}%(n=${medalTotal})</span>`;
   }
-  if(S.cycleLog.length>0){
-    const within3 = S.cycleLog.filter(e=>e.cycle<=3);
+  const yushutsuLogs = S.cycleLog.filter(e=>e.trigger==='yushutsu');
+  const within3 = yushutsuLogs.filter(e=>e.cycle<=3);
+  if(within3.length>0){
     const wins3 = within3.filter(e=>e.result==='win').length;
-    if(within3.length>0) ch += `<span class="chip">3周期以内当選率 ${Math.round(wins3/within3.length*100)}%(n=${within3.length})</span>`;
+    ch += `<span class="chip">3周期以内当選率 ${Math.round(wins3/within3.length*100)}%(n=${within3.length})</span>`;
   }
+  ch += `<span class="chip">通常時G数(合計) ${normalTotal}G</span>`;
+  ch += `<span class="chip">AT中G数(推定) ${atGames}G</span>`;
+  const highPtSkip = S.cycleLog.filter(e=>(e.trigger==='chokugeki'||e.trigger==='chogeki') && e.approxPt>=400).length;
+  if(highPtSkip>0) ch += `<span class="chip">高pt帯CZ/直撃 ${highPtSkip}回(参考)</span>`;
   document.getElementById('chips').innerHTML = ch || '<span class="chip">データなし</span>';
 
   document.getElementById('result-main').classList.add('show');
   document.getElementById('result-chips').classList.add('show');
 }
 
-// 起動時復元
 loadState();
 renderAll();
 </script>
