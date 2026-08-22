@@ -230,6 +230,7 @@ body{padding-bottom:110px;}
     <div id="wiz-pt-block" style="display:none;">
       <div class="sectitle"><span class="stepnum">4</span>到達pt</div>
       <div class="btnrow" id="wiz-pt">
+        <div class="choice" data-pt="0">即優出</div>
         <div class="choice" data-pt="111">111</div>
         <div class="choice" data-pt="222">222</div>
         <div class="choice" data-pt="333">333</div>
@@ -237,6 +238,7 @@ body{padding-bottom:110px;}
         <div class="choice" data-pt="555">555</div>
         <div class="choice" data-pt="666">666</div>
       </div>
+      <div class="small-note">即優出＝前兆を経ずに即座に優出モードへ突入。1周期目のみ発生</div>
     </div>
 
     <div id="wiz-approx-block" style="display:none;">
@@ -595,7 +597,7 @@ document.getElementById('f-total').addEventListener('input', function(){
 // ================================================================================
 const RESULT_OPTIONS = {
   yushutsu: [{v:'win',label:'〇 AT当選'},{v:'through',label:'× スルー'}],
-  chokugeki: [{v:'weak',label:'弱レア役'},{v:'strong',label:'強レア役'}],
+  chokugeki: [{v:'weak',label:'弱レア役'},{v:'strong',label:'強レア役'},{v:'chudan',label:'中段チェリー(究極目)'}],
   chogeki: [{v:'success',label:'〇 成功'},{v:'fail',label:'× 失敗'}],
 };
 
@@ -658,12 +660,12 @@ function updatePtOptions(){
   if(wizState.trigger!=='yushutsu'){ return; }
   let allowed;
   if(wizState.cycle===1){
-    allowed = [111,222];
+    allowed = [0,111,222]; // 即優出は1周期目のみ発生
   } else if(wizState.cycle>1){
     const prevPt = getPrevYushutsuPt();
     allowed = (prevPt && prevPt>=555) ? [111,222] : [111,222,333,444,555,666];
   } else {
-    allowed = [111,222,333,444,555,666]; // 周期未選択時は全表示
+    allowed = [0,111,222,333,444,555,666]; // 周期未選択時は全表示
   }
   document.querySelectorAll('#wiz-pt .choice').forEach(c=>{
     const pt = parseInt(c.dataset.pt);
@@ -754,7 +756,7 @@ document.getElementById('wiz-add').addEventListener('click', function(){
     }
   }
   // 合計ゲーム数に加算するかどうか(AT当選・弱/強直撃・CZ成功・天井到達のみ加算)
-  entry.addToTotal = (entry.result==='win' || entry.result==='weak' || entry.result==='strong' || entry.result==='success');
+  entry.addToTotal = (entry.result==='win' || entry.result==='weak' || entry.result==='strong' || entry.result==='chudan' || entry.result==='success');
 
   pushHistory();
   S.cycleLog.unshift(entry);
@@ -787,7 +789,8 @@ function renderLogList(){
       const typeLabel = {normal:'通常',shortened:'短縮',cycle1:'1周期目'}[e.type]||'';
       detail = `${e.cycle}周期目 / ${e.pt}pt <span class="badge-mini">${typeLabel}</span>`;
     } else if(e.trigger==='chokugeki'){
-      badge = e.result==='strong' ? '<span class="badge-mini badge-win">強レア直撃</span>' : '<span class="badge-mini badge-win">弱レア直撃</span>';
+      const chokugekiLabel = {weak:'弱レア直撃', strong:'強レア直撃', chudan:'中段チェリー(究極目)'}[e.result]||'直撃';
+      badge = `<span class="badge-mini badge-win">${chokugekiLabel}</span>`;
       detail = `${e.cycle}周期目${e.approxPt?' / 目安'+e.approxPt+'pt':''}`;
     } else if(e.trigger==='tenjou'){
       badge = '<span class="badge-mini badge-win">〇天井恩恵</span>';
