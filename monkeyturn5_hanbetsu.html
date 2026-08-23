@@ -215,7 +215,7 @@ body{padding-bottom:110px;}
       <div class="choice" data-trigger="chogeki">CZ出現</div>
       <div class="choice" data-trigger="tenjou">天井到達</div>
     </div>
-    <div class="small-note">天井到達＝通常時795G(短縮時495G)消化 or 周期6周期目(短縮時4周期目)到達。必ずAT当選</div>
+    <div class="small-note">天井到達＝通常時796〜800G(短縮時497G前後、朝一番or青島VS波多野敗北時)消化 or 周期6周期目(短縮時4周期目)到達。必ずAT当選</div>
 
     <div class="sectitle"><span class="stepnum">3</span>周期数<small style="font-weight:400;color:#666;">途中入店の場合もその時点の周期を選択</small></div>
     <div class="btnrow" id="wiz-cycle">
@@ -237,8 +237,9 @@ body{padding-bottom:110px;}
         <div class="choice" data-pt="444">444</div>
         <div class="choice" data-pt="555">555</div>
         <div class="choice" data-pt="666">666</div>
+        <div class="choice" data-pt="unknown">pt不明</div>
       </div>
-      <div class="small-note">即優出＝前兆を経ずに即座に優出モードへ突入。1周期目のみ発生</div>
+      <div class="small-note">即優出＝前兆を経ずに即座に優出モードへ突入。1周期目のみ発生／pt不明でも周期・結果だけで記録できます</div>
     </div>
 
     <div id="wiz-approx-block" style="display:none;">
@@ -269,6 +270,15 @@ body{padding-bottom:110px;}
     <div class="ctitle">記録一覧（新しい順）</div>
     <div class="loglist" id="loglist"></div>
     <div class="small-note" id="loglist-empty">まだ記録がありません</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">実戦メモをエクスポート</div>
+    <div class="small-note">古い順にテキスト化します。下のボタンでコピーして、チャットに貼り付けてください</div>
+    <div style="padding:0 14px 10px;">
+      <textarea id="export-text" readonly style="width:100%;min-height:140px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:9px;color:#ccc;font-size:12px;padding:10px;line-height:1.6;font-family:monospace;"></textarea>
+    </div>
+    <button class="subbtn" id="export-btn" style="border-color:var(--accent);color:var(--accent2);">テキストを生成してコピー</button>
   </div>
   <button class="calcbtn" data-action="calc">計算して結果を見る →</button>
 </div>
@@ -668,6 +678,7 @@ function updatePtOptions(){
     allowed = [0,111,222,333,444,555,666]; // 周期未選択時は全表示
   }
   document.querySelectorAll('#wiz-pt .choice').forEach(c=>{
+    if(c.dataset.pt==='unknown'){ c.style.display='flex'; return; } // pt不明は常に選択可能
     const pt = parseInt(c.dataset.pt);
     const ok = allowed.includes(pt);
     c.style.display = ok ? 'flex' : 'none';
@@ -706,7 +717,7 @@ document.getElementById('wiz-pt').addEventListener('click', function(e){
   if(!c) return;
   this.querySelectorAll('.choice').forEach(g=>g.classList.remove('sel'));
   c.classList.add('sel');
-  wizState.pt = parseInt(c.dataset.pt);
+  wizState.pt = c.dataset.pt==='unknown' ? 'unknown' : parseInt(c.dataset.pt);
 });
 document.getElementById('wiz-result').addEventListener('click', function(e){
   const c = e.target.closest('.choice');
@@ -787,7 +798,8 @@ function renderLogList(){
     if(e.trigger==='yushutsu'){
       badge = e.result==='win' ? '<span class="badge-mini badge-win">〇当選</span>' : '<span class="badge-mini badge-through">×スルー</span>';
       const typeLabel = {normal:'通常',shortened:'短縮',cycle1:'1周期目'}[e.type]||'';
-      detail = `${e.cycle}周期目 / ${e.pt}pt <span class="badge-mini">${typeLabel}</span>`;
+      const ptLabel = e.pt==='unknown' ? 'pt不明' : (e.pt===0 ? '即優出' : e.pt+'pt');
+      detail = `${e.cycle}周期目 / ${ptLabel} <span class="badge-mini">${typeLabel}</span>`;
     } else if(e.trigger==='chokugeki'){
       const chokugekiLabel = {weak:'弱レア直撃', strong:'強レア直撃', chudan:'中段チェリー(究極目)'}[e.result]||'直撃';
       badge = `<span class="badge-mini badge-win">${chokugekiLabel}</span>`;
@@ -904,7 +916,7 @@ function calc(){
   // --- 周期到達ログ ---
   const yushutsuLogs = S.cycleLog.filter(e=>e.trigger==='yushutsu');
   if(yushutsuLogs.length>0){
-    const normalLogs = yushutsuLogs.filter(e=>e.type==='normal');
+    const normalLogs = yushutsuLogs.filter(e=>e.type==='normal' && typeof e.pt==='number' && e.pt>0);
 
     // 着地周期分布(系列単位): AT当選に至った全トリガー(優出win/直撃/CZ成功)から
     // 「1回のAT獲得あたり何周期目で着地したか」を1データ点として集計する
@@ -1122,6 +1134,47 @@ function renderResult(probs, activeClips, medalTotal, normalTotal, atGames){
   document.getElementById('result-main').classList.add('show');
   document.getElementById('result-chips').classList.add('show');
 }
+
+// ================================================================================
+// 実戦メモ エクスポート
+// ================================================================================
+function buildExportText(){
+  const chrono = [...S.cycleLog].reverse(); // 古い順に並べ替え
+  const typeLabel = {normal:'通常', shortened:'短縮', cycle1:'1周期目'};
+  const chokugekiLabel = {weak:'弱レア直撃', strong:'強レア直撃', chudan:'中段チェリー(究極目)'};
+  const lines = chrono.map(e=>{
+    if(e.trigger==='yushutsu'){
+      const ptLabel = e.pt==='unknown' ? 'pt不明' : (e.pt===0 ? '即優出' : e.pt+'pt');
+      const resultLabel = e.result==='win' ? 'AT当選' : 'スルー';
+      const gameLabel = e.effectiveGame!=null ? `${e.game}G(前兆${e.tenchoG}G+VS5G→計${e.effectiveGame}G)` : `${e.game}G`;
+      return `${gameLabel} 優出 ${e.cycle}周期 ${ptLabel} [${typeLabel[e.type]||''}] ${resultLabel}`;
+    } else if(e.trigger==='chokugeki'){
+      return `${e.game}G 直撃(${chokugekiLabel[e.result]||e.result}) ${e.cycle}周期${e.approxPt?' 目安'+e.approxPt+'pt':''}`;
+    } else if(e.trigger==='chogeki'){
+      const resultLabel = e.result==='success' ? 'CZ成功' : 'CZ失敗';
+      return `${e.game}G ${resultLabel} ${e.cycle}周期${e.approxPt?' 目安'+e.approxPt+'pt':''}`;
+    } else if(e.trigger==='tenjou'){
+      return `${e.game}G 天井到達 AT当選 ${e.cycle}周期`;
+    }
+    return `${e.game}G 不明`;
+  });
+  const {normalTotal, winCount} = computeNormalStats();
+  const header = `【モンキーターン5 実戦メモ】総回転数:${S.total||'-'}G / 通常時G数:${normalTotal}G / AT当選回数:${winCount}回 / 5枚役:${S.bell5}回 / セリフA:${S.serifuA} B:${S.serifuB}`;
+  return header + '\n' + '-'.repeat(40) + '\n' + lines.join('\n');
+}
+
+document.getElementById('export-btn').addEventListener('click', async function(){
+  const text = buildExportText();
+  document.getElementById('export-text').value = text;
+  try{
+    await navigator.clipboard.writeText(text);
+    this.textContent = 'コピーしました！';
+  }catch(e){
+    document.getElementById('export-text').select();
+    this.textContent = 'テキストを選択したので手動でコピーしてください';
+  }
+  setTimeout(()=>{ this.textContent = 'テキストを生成してコピー'; }, 2500);
+});
 
 loadState();
 renderAll();
