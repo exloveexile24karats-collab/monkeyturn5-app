@@ -741,7 +741,7 @@ document.getElementById('wiz-add').addEventListener('click', function(){
   if(!wizState.trigger){ alert('契機を選択してください'); return; }
   if(wizState.trigger!=='tenjou' && !wizState.cycle){ alert('周期数を選択してください'); return; }
   if(wizState.trigger!=='tenjou' && !wizState.result){ alert('結果を選択してください'); return; }
-  if(wizState.trigger==='yushutsu' && !wizState.pt){ alert('到達ptを選択してください'); return; }
+  if(wizState.trigger==='yushutsu' && (wizState.pt===null || wizState.pt===undefined)){ alert('到達ptを選択してください'); return; }
 
   const isYushutsuWin = (wizState.trigger==='yushutsu' && wizState.result==='win'); // 天井到達は前兆加算の対象外(入力ゲーム数=AT当選ゲーム数そのもの)
   const tenchoG = isYushutsuWin ? (wizState.tenchoG!==null ? wizState.tenchoG : 12) : 0;
