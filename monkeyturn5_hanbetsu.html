@@ -811,7 +811,7 @@ function renderLogList(){
       badge = e.result==='success' ? '<span class="badge-mini badge-win">〇成功</span>' : '<span class="badge-mini badge-fail">×失敗</span>';
       detail = `${e.cycle}周期目${e.approxPt?' / 目安'+e.approxPt+'pt':''}（CZ出現）`;
     }
-    const gameDisp = e.effectiveGame!=null ? `${e.game}G(前兆+${e.tenchoG}G+VS5G→計${e.effectiveGame}G)` : `${e.game}G`;
+    const gameDisp = (e.result==='win' && e.tenchoG!=null) ? `${e.game}G(前兆+${e.tenchoG}G+VS5G→計${e.effectiveGame}G)` : `${e.game}G`;
     return `<div class="logitem">
       <div class="lmain">[${TRIGGER_LABEL[e.trigger]}] ${detail} ${badge}<br><span style="color:#666;">G数:${gameDisp}${e.addToTotal?'（合計に加算）':'（合計に含めず）'}</span></div>
       <div class="ldel" data-delidx="${idx}">削除</div>
@@ -1146,7 +1146,7 @@ function buildExportText(){
     if(e.trigger==='yushutsu'){
       const ptLabel = e.pt==='unknown' ? 'pt不明' : (e.pt===0 ? '即優出' : e.pt+'pt');
       const resultLabel = e.result==='win' ? 'AT当選' : 'スルー';
-      const gameLabel = e.effectiveGame!=null ? `${e.game}G(前兆${e.tenchoG}G+VS5G→計${e.effectiveGame}G)` : `${e.game}G`;
+      const gameLabel = (e.result==='win' && e.tenchoG!=null) ? `${e.game}G(前兆${e.tenchoG}G+VS5G→計${e.effectiveGame}G)` : `${e.game}G`;
       return `${gameLabel} 優出 ${e.cycle}周期 ${ptLabel} [${typeLabel[e.type]||''}] ${resultLabel}`;
     } else if(e.trigger==='chokugeki'){
       return `${e.game}G 直撃(${chokugekiLabel[e.result]||e.result}) ${e.cycle}周期${e.approxPt?' 目安'+e.approxPt+'pt':''}`;
